@@ -1,23 +1,30 @@
 package csumissu.weatherforecast
 
 import android.Manifest
-import android.arch.lifecycle.LifecycleActivity
 import android.arch.lifecycle.Observer
+import android.location.Geocoder
 import android.os.Bundle
+import android.support.v7.widget.Toolbar
+import csumissu.weatherforecast.common.BaseActivity
+import csumissu.weatherforecast.common.ToolbarManager
 import csumissu.weatherforecast.util.LocationLiveData
 import csumissu.weatherforecast.util.PermissionUtils
-import org.jetbrains.anko.AnkoLogger
+import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.find
 import org.jetbrains.anko.info
 
 /**
  * @author yxsun
  * @since 01/06/2017
  */
-class MainActivity : LifecycleActivity(), AnkoLogger {
+class MainActivity : BaseActivity(), ToolbarManager {
+
+    override val mToolbar by lazy { find<Toolbar>(R.id.toolbar) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setSupportActionBar(mToolbar)
     }
 
     override fun onStart() {
@@ -43,6 +50,13 @@ class MainActivity : LifecycleActivity(), AnkoLogger {
         LocationLiveData.getInstance(this).observe(this, Observer {
             coordinate ->
             info("new data ${coordinate?.latitude} ${coordinate?.longitude}")
+            if (coordinate != null) {
+                val results = Geocoder(this@MainActivity).getFromLocation(coordinate.latitude, coordinate.longitude, 1)
+                if (results != null && results.isNotEmpty()) {
+                    val address = results[0]
+                    mAddressView.text = "${address.locality} / ${address.countryName}"
+                }
+            }
         })
     }
 
