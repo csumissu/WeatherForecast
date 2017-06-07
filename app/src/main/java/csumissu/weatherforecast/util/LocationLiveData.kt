@@ -23,7 +23,9 @@ class LocationLiveData private constructor(context: Context) : LiveData<Coordina
     }
 
     override fun onActive() {
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0F, mListener)
+        for (provider in mLocationManager.allProviders) {
+            mLocationManager.requestLocationUpdates(provider, 1000L, 500F, mListener)
+        }
     }
 
     override fun onInactive() {
