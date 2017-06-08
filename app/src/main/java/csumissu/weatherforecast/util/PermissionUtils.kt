@@ -25,7 +25,7 @@ object PermissionUtils {
     }
 
     fun checkGrantResults(grantResults: IntArray): Boolean {
-        return grantResults.none { it != PackageManager.PERMISSION_GRANTED }
+        return grantResults.all { it == PackageManager.PERMISSION_GRANTED }
     }
 
 }
