@@ -2,6 +2,7 @@ package csumissu.weatherforecast.util
 
 import android.app.Activity
 import android.content.Context
+import android.content.pm.PackageManager
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.PermissionChecker
 
@@ -21,6 +22,10 @@ object PermissionUtils {
 
     fun isPermissionGranted(ctx: Context, permission: String): Boolean {
         return PermissionChecker.checkSelfPermission(ctx, permission) == PermissionChecker.PERMISSION_GRANTED
+    }
+
+    fun checkGrantResults(grantResults: IntArray): Boolean {
+        return grantResults.none { it != PackageManager.PERMISSION_GRANTED }
     }
 
 }

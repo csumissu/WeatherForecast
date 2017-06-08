@@ -1,8 +1,11 @@
 package csumissu.weatherforecast.common
 
 import android.support.v7.graphics.drawable.DrawerArrowDrawable
+import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import csumissu.weatherforecast.extensions.ctx
+import csumissu.weatherforecast.extensions.slideEnter
+import csumissu.weatherforecast.extensions.slideExit
 
 /**
  * @author yxsun
@@ -24,4 +27,13 @@ interface ToolbarManager {
     }
 
     private fun createUpDrawable() = DrawerArrowDrawable(mToolbar.ctx).apply { progress = 1f }
+
+    fun attachToScroll(recyclerView: RecyclerView) {
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                if (dy > 0) mToolbar.slideExit() else mToolbar.slideEnter()
+            }
+        })
+    }
+
 }

@@ -26,7 +26,7 @@ data class Weather(val description: String,
         get() = "http://openweathermap.org/img/w/$iconCode.png"
 }
 
-data class Forecast(val dt: Long,
+data class Forecast(@SerializedName("dt") val date: Long,
                     @SerializedName("temp") val temperature: Temperature,
                     val humidity: Int,
                     @SerializedName("weather") val weathers: List<Weather>,
