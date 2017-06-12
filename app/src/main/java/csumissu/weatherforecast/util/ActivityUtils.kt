@@ -11,10 +11,11 @@ import android.support.v4.app.FragmentManager
  */
 object ActivityUtils {
 
-    fun showFragment(fragmentManager: FragmentManager, fragment: Fragment, @IdRes frameId: Int) {
+    fun showFragment(fragmentManager: FragmentManager, fragment: Fragment,
+                     tag: String?, @IdRes frameId: Int) {
         val transaction = fragmentManager.beginTransaction()
         if (!fragment.isAdded) {
-            transaction.add(frameId, fragment)
+            transaction.add(frameId, fragment, tag)
         }
         transaction.show(fragment).commit()
     }
@@ -23,11 +24,16 @@ object ActivityUtils {
         fragmentManager.beginTransaction().hide(fragment).commit()
     }
 
-    fun showFragmentInTx(fragmentManager: FragmentManager, fragment: Fragment, @IdRes frameId: Int) {
+    fun showFragmentInTx(fragmentManager: FragmentManager, fragment: Fragment,
+                         tag: String?, @IdRes frameId: Int) {
         fragmentManager.beginTransaction()
                 .addToBackStack(null)
-                .replace(frameId, fragment, null)
+                .replace(frameId, fragment, tag)
                 .commit()
+    }
+
+    inline fun <reified T> findFragmentByTag(fragmentManager: FragmentManager, tag: String): T? {
+        return fragmentManager.findFragmentByTag(tag) as T?
     }
 
 }

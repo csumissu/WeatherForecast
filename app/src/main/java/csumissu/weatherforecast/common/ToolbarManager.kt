@@ -15,12 +15,6 @@ interface ToolbarManager {
 
     val mToolbar: Toolbar
 
-    var toolbarTitle: String
-        get() = mToolbar.title.toString()
-        set(value) {
-            mToolbar.title = value
-        }
-
     fun enableHomeAsUp(up: () -> Unit) {
         mToolbar.navigationIcon = createUpDrawable()
         mToolbar.setNavigationOnClickListener { up() }

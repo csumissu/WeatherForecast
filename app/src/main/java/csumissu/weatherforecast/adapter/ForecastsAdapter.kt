@@ -19,6 +19,11 @@ class ForecastsAdapter(private var mForecastList: ForecastList? = null,
                        val mItemClick: (Forecast) -> Unit) :
         RecyclerView.Adapter<ForecastsAdapter.ViewHolder>() {
 
+    fun setData(forecastList: ForecastList?) {
+        mForecastList = forecastList
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.ctx).inflate(R.layout.item_forecast, parent, false))
     }

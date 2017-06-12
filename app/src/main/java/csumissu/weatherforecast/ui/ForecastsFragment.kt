@@ -1,6 +1,8 @@
 package csumissu.weatherforecast.ui
 
 import android.arch.lifecycle.Lifecycle
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -10,6 +12,9 @@ import csumissu.weatherforecast.MainActivity
 import csumissu.weatherforecast.R
 import csumissu.weatherforecast.adapter.ForecastsAdapter
 import csumissu.weatherforecast.common.BaseFragment
+import csumissu.weatherforecast.data.Coordinate
+import csumissu.weatherforecast.data.ForecastList
+import csumissu.weatherforecast.viewmodel.ForecastListViewModel
 import kotlinx.android.synthetic.main.fragment_forecasts.*
 
 /**
@@ -19,6 +24,7 @@ import kotlinx.android.synthetic.main.fragment_forecasts.*
 class ForecastsFragment : BaseFragment() {
 
     private lateinit var mAdapter: ForecastsAdapter
+    private lateinit var mViewModel: ForecastListViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_forecasts, container, false)
@@ -33,6 +39,22 @@ class ForecastsFragment : BaseFragment() {
             }
         }
         mForecastsView.adapter = mAdapter
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        mViewModel = ViewModelProviders.of(this).get(ForecastListViewModel::class.java)
+        mViewModel.getDailyForecasts().observe(this, Observer<ForecastList> { it ->
+            mAdapter.setData(it)
+        })
+    }
+
+    fun updateCoordinate(coordinate: Coordinate) {
+        mViewModel.setCoordinate(coordinate)
+    }
+
+    companion object {
+        val TAG_NAME = "fragment_forecasts"
     }
 
 }
