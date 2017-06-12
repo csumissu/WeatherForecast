@@ -1,7 +1,9 @@
 package csumissu.weatherforecast.data
 
 import com.google.gson.annotations.SerializedName
+import java.text.DateFormat
 import java.text.DecimalFormat
+import java.util.*
 
 /**
  * @author yxsun
@@ -21,19 +23,22 @@ data class Coordinate(private val _latitude: Double? = 34.275, private val _long
 data class Temperature(val day: Float, val min: Float, val max: Float)
 
 data class Weather(val description: String,
-                   @SerializedName("icon") val iconCode: String) {
+                   @SerializedName("icon") private val iconCode: String) {
     val iconUrl: String
         get() = "http://openweathermap.org/img/w/$iconCode.png"
 }
 
-data class Forecast(@SerializedName("dt") val date: Long,
+data class Forecast(private val dt: Long,
                     @SerializedName("temp") val temperature: Temperature,
                     val humidity: Int,
                     @SerializedName("weather") val weathers: List<Weather>,
                     val pressure: Float,
                     val windSpeed: Float,
                     @SerializedName("deg") val windDegrees: Int,
-                    val clouds: Int)
+                    val clouds: Int) {
+    val date: String
+        get() = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault()).format(dt * 1000)
+}
 
 data class City(val id: Long, val name: String, val country: String)
 

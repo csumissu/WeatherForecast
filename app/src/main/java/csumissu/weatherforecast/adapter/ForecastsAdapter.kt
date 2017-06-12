@@ -44,7 +44,7 @@ class ForecastsAdapter(private var mForecastList: ForecastList? = null,
             val weather = forecast.weathers[0]
 
             ImageUtils.loadImage(itemView.icon, weather.iconUrl)
-            itemView.date.text = date.toString()
+            itemView.date.text = date
             itemView.description.text = weather.description
             itemView.maxTemperature.text = "${temperature.max}°"
             itemView.minTemperature.text = "${temperature.min}°"
