@@ -10,9 +10,7 @@ import javax.inject.Singleton
  * @since 06/06/2017
  */
 @Singleton
-class ForecastRemoteProvider(forecastApi: ForecastApi) : ForecastDataSource {
-
-    val mForecastApi = forecastApi
+class ForecastRemoteProvider(private val mForecastApi: ForecastApi = ForecastApi.getApiService()) : ForecastDataSource {
 
     override fun loadDailyForecasts(latitude: Double, longitude: Double): Flowable<ForecastList> {
         return mForecastApi.getDailyForecasts(latitude, longitude)

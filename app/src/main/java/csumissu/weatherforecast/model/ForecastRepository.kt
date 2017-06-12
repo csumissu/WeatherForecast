@@ -12,10 +12,9 @@ import javax.inject.Singleton
  * @since 07/06/2017
  */
 @Singleton
-class ForecastRepository @Inject constructor(@Remote remoteProvider: ForecastDataSource,
-                                             @Local localProvider: ForecastDataStore) : ForecastDataSource {
-    private val mRemoteProvider = remoteProvider
-    private val mLocalProvider = localProvider
+class ForecastRepository
+@Inject constructor(@Remote private val mRemoteProvider: ForecastDataSource,
+                    @Local private val mLocalProvider: ForecastDataStore) : ForecastDataSource {
 
     override fun loadDailyForecasts(latitude: Double, longitude: Double): Flowable<ForecastList> {
         val localObservable = mLocalProvider.loadDailyForecasts(latitude, longitude)

@@ -15,7 +15,8 @@ import kotlinx.android.synthetic.main.item_forecast.view.*
  * @author yxsun
  * @since 07/06/2017
  */
-class ForecastsAdapter(var forecastList: ForecastList? = null, val itemClick: (Forecast) -> Unit) :
+class ForecastsAdapter(private var mForecastList: ForecastList? = null,
+                       val mItemClick: (Forecast) -> Unit) :
         RecyclerView.Adapter<ForecastsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -23,13 +24,13 @@ class ForecastsAdapter(var forecastList: ForecastList? = null, val itemClick: (F
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val forecast = forecastList!![position]
+        val forecast = mForecastList!![position]
         holder.bindForecast(forecast)
-        holder.itemView.setOnClickListener { itemClick(forecast) }
+        holder.itemView.setOnClickListener { mItemClick(forecast) }
     }
 
     override fun getItemCount(): Int {
-        return forecastList?.size ?: 0
+        return mForecastList?.size ?: 0
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
