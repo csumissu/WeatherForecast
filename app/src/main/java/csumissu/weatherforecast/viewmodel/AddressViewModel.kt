@@ -7,7 +7,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Transformations
 import android.location.Address
 import android.location.Geocoder
-import csumissu.weatherforecast.data.Coordinate
+import csumissu.weatherforecast.model.Coordinate
 
 /**
  * @author yxsun

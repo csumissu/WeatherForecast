@@ -1,6 +1,6 @@
 package csumissu.weatherforecast.model.remote
 
-import csumissu.weatherforecast.data.Coordinate
+import csumissu.weatherforecast.model.Coordinate
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

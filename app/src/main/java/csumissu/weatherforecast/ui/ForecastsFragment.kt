@@ -12,8 +12,8 @@ import csumissu.weatherforecast.MainActivity
 import csumissu.weatherforecast.R
 import csumissu.weatherforecast.adapter.ForecastsAdapter
 import csumissu.weatherforecast.common.BaseFragment
-import csumissu.weatherforecast.data.Coordinate
-import csumissu.weatherforecast.data.ForecastList
+import csumissu.weatherforecast.model.Coordinate
+import csumissu.weatherforecast.model.ForecastList
 import csumissu.weatherforecast.viewmodel.ForecastListViewModel
 import kotlinx.android.synthetic.main.fragment_forecasts.*
 

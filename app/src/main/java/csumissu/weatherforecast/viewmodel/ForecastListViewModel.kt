@@ -6,8 +6,8 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Transformations
 import csumissu.weatherforecast.App
-import csumissu.weatherforecast.data.Coordinate
-import csumissu.weatherforecast.data.ForecastList
+import csumissu.weatherforecast.model.Coordinate
+import csumissu.weatherforecast.model.ForecastList
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 

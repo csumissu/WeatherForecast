@@ -1,6 +1,5 @@
 package csumissu.weatherforecast.model
 
-import csumissu.weatherforecast.data.ForecastList
 import io.reactivex.Flowable
 
 /**

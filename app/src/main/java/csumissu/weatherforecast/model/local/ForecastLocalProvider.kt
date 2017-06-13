@@ -1,6 +1,6 @@
 package csumissu.weatherforecast.model.local
 
-import csumissu.weatherforecast.data.ForecastList
+import csumissu.weatherforecast.model.ForecastList
 import csumissu.weatherforecast.model.ForecastDataStore
 import io.reactivex.Flowable
 import javax.inject.Singleton

@@ -1,6 +1,6 @@
 package csumissu.weatherforecast.model.remote
 
-import csumissu.weatherforecast.data.Coordinate
+import csumissu.weatherforecast.model.Coordinate
 import junit.framework.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test

@@ -1,4 +1,4 @@
-package csumissu.weatherforecast.data
+package csumissu.weatherforecast.model
 
 import com.google.gson.annotations.SerializedName
 import java.text.DecimalFormat

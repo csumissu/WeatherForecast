@@ -4,7 +4,7 @@ import android.arch.lifecycle.LiveData
 import android.content.Context
 import android.location.Location
 import android.location.LocationManager
-import csumissu.weatherforecast.data.Coordinate
+import csumissu.weatherforecast.model.Coordinate
 
 
 /**

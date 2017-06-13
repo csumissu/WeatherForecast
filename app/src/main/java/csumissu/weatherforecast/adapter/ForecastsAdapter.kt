@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import csumissu.weatherforecast.R
-import csumissu.weatherforecast.data.Forecast
-import csumissu.weatherforecast.data.ForecastList
+import csumissu.weatherforecast.model.Forecast
+import csumissu.weatherforecast.model.ForecastList
 import csumissu.weatherforecast.extensions.ctx
 import csumissu.weatherforecast.extensions.toDateString
 import csumissu.weatherforecast.util.ImageUtils

@@ -2,7 +2,7 @@ package csumissu.weatherforecast.ui
 
 import android.os.Bundle
 import csumissu.weatherforecast.common.BaseFragment
-import csumissu.weatherforecast.data.Forecast
+import csumissu.weatherforecast.model.Forecast
 
 /**
  * @author yxsun

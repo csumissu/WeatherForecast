@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.support.v7.widget.Toolbar
 import csumissu.weatherforecast.common.BasePermissionsActivity
 import csumissu.weatherforecast.common.ToolbarManager
-import csumissu.weatherforecast.data.Forecast
+import csumissu.weatherforecast.model.Forecast
 import csumissu.weatherforecast.extensions.DelegatesExt
 import csumissu.weatherforecast.extensions.toDateString
 import csumissu.weatherforecast.ui.DetailsFragment

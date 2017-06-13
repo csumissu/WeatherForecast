@@ -1,6 +1,6 @@
 package csumissu.weatherforecast.model.remote
 
-import csumissu.weatherforecast.data.ForecastList
+import csumissu.weatherforecast.model.ForecastList
 import io.reactivex.Flowable
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
