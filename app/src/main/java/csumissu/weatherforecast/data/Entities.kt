@@ -1,9 +1,7 @@
 package csumissu.weatherforecast.data
 
 import com.google.gson.annotations.SerializedName
-import java.text.DateFormat
 import java.text.DecimalFormat
-import java.util.*
 
 /**
  * @author yxsun
@@ -36,8 +34,8 @@ data class Forecast(private val dt: Long,
                     val windSpeed: Float,
                     @SerializedName("deg") val windDegrees: Int,
                     val clouds: Int) {
-    val date: String
-        get() = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault()).format(dt * 1000)
+    val date: Long
+        get() = dt * 1000
 }
 
 data class City(val id: Long, val name: String, val country: String)

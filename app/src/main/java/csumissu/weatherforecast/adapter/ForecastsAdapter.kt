@@ -8,6 +8,7 @@ import csumissu.weatherforecast.R
 import csumissu.weatherforecast.data.Forecast
 import csumissu.weatherforecast.data.ForecastList
 import csumissu.weatherforecast.extensions.ctx
+import csumissu.weatherforecast.extensions.toDateString
 import csumissu.weatherforecast.util.ImageUtils
 import kotlinx.android.synthetic.main.item_forecast.view.*
 
@@ -44,7 +45,7 @@ class ForecastsAdapter(private var mForecastList: ForecastList? = null,
             val weather = forecast.weathers[0]
 
             ImageUtils.loadImage(itemView.icon, weather.iconUrl)
-            itemView.date.text = date
+            itemView.date.text = date.toDateString()
             itemView.description.text = weather.description
             itemView.maxTemperature.text = "${temperature.max}°"
             itemView.minTemperature.text = "${temperature.min}°"

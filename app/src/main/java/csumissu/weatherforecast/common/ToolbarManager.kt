@@ -20,6 +20,10 @@ interface ToolbarManager {
         mToolbar.setNavigationOnClickListener { up() }
     }
 
+    fun disableHomeAsUp() {
+        mToolbar.navigationIcon = null
+    }
+
     private fun createUpDrawable() = DrawerArrowDrawable(mToolbar.ctx).apply { progress = 1f }
 
     fun attachToScroll(recyclerView: RecyclerView) {
