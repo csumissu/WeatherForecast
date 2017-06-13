@@ -12,7 +12,6 @@ class DetailsFragment : BaseFragment() {
 
 
     companion object {
-        val TAG_NAME = "fragment_details"
         val KEY_FORECAST = "key_forecast"
 
         fun forForecast(forecast: Forecast): DetailsFragment {

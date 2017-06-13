@@ -12,7 +12,7 @@ import android.support.v4.app.FragmentManager
 object ActivityUtils {
 
     fun showFragment(fragmentManager: FragmentManager, fragment: Fragment,
-                     tag: String?, @IdRes frameId: Int) {
+                     @IdRes frameId: Int, tag: String? = null) {
         val transaction = fragmentManager.beginTransaction()
         if (!fragment.isAdded) {
             transaction.add(frameId, fragment, tag)
@@ -25,7 +25,7 @@ object ActivityUtils {
     }
 
     fun showFragmentInTx(fragmentManager: FragmentManager, fragment: Fragment,
-                         tag: String?, @IdRes frameId: Int) {
+                         @IdRes frameId: Int, tag: String? = null) {
         fragmentManager.beginTransaction()
                 .addToBackStack(null)
                 .replace(frameId, fragment, tag)

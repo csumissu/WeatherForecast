@@ -37,7 +37,7 @@ class MainActivity : BasePermissionsActivity(), ToolbarManager {
 
         if (savedInstanceState == null) {
             ActivityUtils.showFragment(supportFragmentManager, ForecastsFragment(),
-                    ForecastsFragment.TAG_NAME, R.id.mContentView)
+                    R.id.mContentView, ForecastsFragment.TAG_NAME)
         }
 
         mAddressViewModel = ViewModelProviders.of(this).get(AddressViewModel::class.java)
@@ -69,8 +69,7 @@ class MainActivity : BasePermissionsActivity(), ToolbarManager {
         supportActionBar?.subtitle = forecast.date.toDateString(DateFormat.FULL)
 
         val detailsFragment = DetailsFragment.forForecast(forecast)
-        ActivityUtils.showFragmentInTx(supportFragmentManager, detailsFragment,
-                DetailsFragment.TAG_NAME, R.id.mContentView)
+        ActivityUtils.showFragmentInTx(supportFragmentManager, detailsFragment, R.id.mContentView)
     }
 
     private fun observeLocationChanges() {
