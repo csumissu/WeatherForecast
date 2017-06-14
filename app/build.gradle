@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 25
@@ -38,9 +39,6 @@ dependencies {
     compile "android.arch.lifecycle:runtime:$lifecycle_version"
     compile "android.arch.lifecycle:extensions:$lifecycle_version"
     kapt "android.arch.lifecycle:compiler:$lifecycle_version"
-    // For Room
-    compile "android.arch.persistence.room:runtime:$lifecycle_version"
-    kapt "android.arch.persistence.room:compiler:$lifecycle_version"
 
     compile "com.google.code.gson:gson:2.8.0"
     compile "com.squareup.picasso:picasso:2.5.2"
