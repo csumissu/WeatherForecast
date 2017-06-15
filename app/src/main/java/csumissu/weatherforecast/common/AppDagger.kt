@@ -38,7 +38,7 @@ class AppModule(private val mApp: App) {
     @Singleton
     @Local
     fun provideForecastLocalProvider(): ForecastDataStore {
-        return ForecastLocalProvider()
+        return ForecastLocalProvider(mApp)
     }
 
 }

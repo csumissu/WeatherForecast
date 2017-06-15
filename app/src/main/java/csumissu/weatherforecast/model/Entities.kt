@@ -21,15 +21,15 @@ data class Coordinate(private val _latitude: Double? = 34.275, private val _long
 data class Temperature(val day: Float, val min: Float, val max: Float)
 
 data class Weather(val description: String,
-                   @SerializedName("icon") private val iconCode: String) {
+                   @SerializedName("icon") val iconCode: String) {
     val iconUrl: String
         get() = "http://openweathermap.org/img/w/$iconCode.png"
 }
 
-data class Forecast(private val dt: Long,
+data class Forecast(val dt: Long,
                     @SerializedName("temp") val temperature: Temperature,
-                    val humidity: Int,
                     @SerializedName("weather") val weathers: List<Weather>,
+                    val humidity: Int,
                     val pressure: Float,
                     val windSpeed: Float,
                     @SerializedName("deg") val windDegrees: Int,

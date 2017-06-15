@@ -8,20 +8,30 @@ import android.arch.lifecycle.Transformations
 import android.location.Address
 import android.location.Geocoder
 import csumissu.weatherforecast.model.Coordinate
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.error
+import java.io.IOException
 
 /**
  * @author yxsun
  * @since 12/06/2017
  */
-class AddressViewModel(private val mApp: Application) : AndroidViewModel(mApp) {
+class AddressViewModel(private val mApp: Application) : AndroidViewModel(mApp), AnkoLogger {
 
     private val mInput = MutableLiveData<Coordinate>()
     private val mAddress = Transformations.switchMap(mInput) { it ->
         val result = MutableLiveData<Address>()
         if (it != null) {
-            val results = Geocoder(mApp).getFromLocation(it.latitude, it.longitude, 1)
-            if (results != null && results.isNotEmpty()) {
-                result.value = results[0]
+            doAsync {
+                try {
+                    val results = Geocoder(mApp).getFromLocation(it.latitude, it.longitude, 1)
+                    if (results != null && results.isNotEmpty()) {
+                        result.value = results[0]
+                    }
+                } catch (error: IOException) {
+                    error("Get address from location failed", error)
+                }
             }
         }
         result

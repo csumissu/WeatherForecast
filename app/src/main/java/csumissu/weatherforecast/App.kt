@@ -5,6 +5,7 @@ import csumissu.weatherforecast.common.AppComponent
 import csumissu.weatherforecast.common.AppModule
 import csumissu.weatherforecast.common.DaggerAppComponent
 import csumissu.weatherforecast.extensions.DelegatesExt
+import io.realm.Realm
 
 /**
  * @author yxsun
@@ -17,6 +18,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         INSTANCE = this
+        Realm.init(this)
         mAppComponent = DaggerAppComponent.builder()
                 .appModule(AppModule(this))
                 .build()
