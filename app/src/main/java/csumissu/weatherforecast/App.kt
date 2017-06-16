@@ -1,10 +1,13 @@
 package csumissu.weatherforecast
 
 import android.app.Application
+import com.appsee.Appsee
+import com.crashlytics.android.Crashlytics
 import csumissu.weatherforecast.common.AppComponent
 import csumissu.weatherforecast.common.AppModule
 import csumissu.weatherforecast.common.DaggerAppComponent
 import csumissu.weatherforecast.extensions.DelegatesExt
+import io.fabric.sdk.android.Fabric
 import io.realm.Realm
 
 /**
@@ -19,6 +22,8 @@ class App : Application() {
         super.onCreate()
         INSTANCE = this
         Realm.init(this)
+        Fabric.with(this, Crashlytics())
+        Appsee.start(getString(R.string.com_appsee_apikey))
         mAppComponent = DaggerAppComponent.builder()
                 .appModule(AppModule(this))
                 .build()
