@@ -11,6 +11,7 @@ import csumissu.weatherforecast.model.Coordinate
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.error
+import org.jetbrains.anko.uiThread
 import java.io.IOException
 
 /**
@@ -27,7 +28,9 @@ class AddressViewModel(private val mApp: Application) : AndroidViewModel(mApp), 
                 try {
                     val results = Geocoder(mApp).getFromLocation(it.latitude, it.longitude, 1)
                     if (results != null && results.isNotEmpty()) {
-                        result.value = results[0]
+                        uiThread {
+                            result.value = results[0]
+                        }
                     }
                 } catch (error: IOException) {
                     error("Get address from location failed", error)
