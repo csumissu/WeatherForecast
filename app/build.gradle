@@ -16,10 +16,20 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+    signingConfigs {
+        beta {
+            storeFile file('beta.jks')
+            storePassword '123456'
+            keyAlias 'beta'
+            keyPassword '123456'
+        }
+    }
     buildTypes {
-        release {
+        beta {
+            applicationIdSuffix '.beta'
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.beta
         }
     }
 }
