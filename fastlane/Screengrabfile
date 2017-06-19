@@ -1,0 +1,5 @@
+locales ['en-US', 'zh-rCN']
+clear_previous_screenshots true
+tests_apk_path 'app/build/outputs/apk/app-debug-androidTest.apk'
+app_apk_path 'app/build/outputs/apk/app-debug.apk'
+use_tests_in_classes ['csumissu.weatherforecast.JUnit4StyleTests']

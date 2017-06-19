@@ -19,6 +19,12 @@ platform :android do
     gradle(task: "assembleBeta")
   end
 
+  desc "Build a debug and test apk then generate screenshots"
+  lane :genScreenshots do
+    gradle(task: "assembleDebug assembleAndroidTest")
+    screengrab
+  end
+
   after_all do |lane|
     case lane
     when :beta

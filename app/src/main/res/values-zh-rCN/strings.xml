@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">天气预报</string>
+    <string name="details_page">详情界面</string>
+</resources>
