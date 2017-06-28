@@ -1,6 +1,7 @@
 package csumissu.weatherforecast.model
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 import java.text.DecimalFormat
 
 /**
@@ -18,10 +19,10 @@ data class Coordinate(private val _latitude: Double? = 34.275, private val _long
 
 }
 
-data class Temperature(val day: Float, val min: Float, val max: Float)
+data class Temperature(val day: Float, val min: Float, val max: Float) : Serializable
 
 data class Weather(val description: String,
-                   @SerializedName("icon") val iconCode: String) {
+                   @SerializedName("icon") val iconCode: String) : Serializable {
     val iconUrl: String
         get() = "http://openweathermap.org/img/w/$iconCode.png"
 }
@@ -33,7 +34,7 @@ data class Forecast(val dt: Long,
                     val pressure: Float,
                     val windSpeed: Float,
                     @SerializedName("deg") val windDegrees: Int,
-                    val clouds: Int) {
+                    val clouds: Int) : Serializable {
     val date: Long
         get() = dt * 1000
 }

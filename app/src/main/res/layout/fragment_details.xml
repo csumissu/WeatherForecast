@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="forecast"
+            type="csumissu.weatherforecast.model.Forecast" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/default_margin"
+            android:paddingRight="@dimen/default_margin"
+            android:paddingTop="@dimen/default_margin"
+            tools:ignore="UseCompoundDrawables">
+
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@{forecast.weathers[0].iconUrl}"
+                tools:ignore="ContentDescription"
+                tools:src="@mipmap/ic_launcher" />
+
+            <TextView
+                android:id="@+id/weatherDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_margin"
+                android:text="@{forecast.weathers[0].description}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                tools:text="Few clouds" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/maxTemperature"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_margin"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:maxLines="1"
+                android:text='@{forecast.temperature.max + "°"}'
+                app:bindTemperature="@{forecast.temperature.max}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+                tools:text="30º" />
+
+            <TextView
+                android:id="@+id/minTemperature"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_margin"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:maxLines="1"
+                android:text='@{forecast.temperature.min + "°"}'
+                app:bindTemperature="@{forecast.temperature.min}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+                tools:text="10º" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</layout>
