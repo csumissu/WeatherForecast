@@ -30,7 +30,7 @@
                 android:id="@+id/icon"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:src="@{forecast.weathers[0].iconUrl}"
+                app:imageUrl="@{forecast.weathers[0].iconUrl}"
                 tools:ignore="ContentDescription"
                 tools:src="@mipmap/ic_launcher" />
 
@@ -58,9 +58,8 @@
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
                 android:maxLines="1"
-                android:text='@{forecast.temperature.max + "°"}'
-                app:bindTemperature="@{forecast.temperature.max}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+                app:temperature="@{forecast.temperature.max}"
                 tools:text="30º" />
 
             <TextView
@@ -71,9 +70,8 @@
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
                 android:maxLines="1"
-                android:text='@{forecast.temperature.min + "°"}'
-                app:bindTemperature="@{forecast.temperature.min}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+                app:temperature="@{forecast.temperature.min}"
                 tools:text="10º" />
 
         </LinearLayout>

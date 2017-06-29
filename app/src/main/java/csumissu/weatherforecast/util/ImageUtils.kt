@@ -14,7 +14,7 @@ import csumissu.weatherforecast.extensions.ctx
 object ImageUtils {
 
     @JvmStatic
-    @BindingAdapter("android:src")
+    @BindingAdapter("bind:imageUrl")
     fun loadImage(view: ImageView, url: String) {
         loadImage(view, url, R.drawable.ic_photo_placeholder, 0)
     }

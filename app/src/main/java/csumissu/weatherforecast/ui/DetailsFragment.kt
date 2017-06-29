@@ -44,8 +44,9 @@ class DetailsFragment : BaseFragment() {
         }
 
         @JvmStatic
-        @BindingAdapter("bindTemperature")
+        @BindingAdapter("bind:temperature")
         fun bindTextColor(view: TextView, temperature: Float) {
+            view.text = "$temperature°"
             view.textColor = view.context.color(when (temperature) {
                 in -50..0 -> android.R.color.holo_red_dark
                 in 0..15 -> android.R.color.holo_orange_dark
