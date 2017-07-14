@@ -23,7 +23,6 @@ import tools.fastlane.screengrab.locale.LocaleTestRule
 
 /**
  * @author yxsun
- * *
  * @since 19/06/2017
  */
 @RunWith(JUnit4::class)
