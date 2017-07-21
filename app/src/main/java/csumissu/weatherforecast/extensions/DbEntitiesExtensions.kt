@@ -33,7 +33,7 @@ fun WeatherEntity.toBean(): Weather {
 @JvmName("weatherBeansToEntities")
 fun List<Weather>.toEntityList(): RealmList<WeatherEntity> {
     val entities = RealmList<WeatherEntity>()
-    this.mapNotNull { it.toEntity() }
+    this.mapNotNullTo(entities) { it.toEntity() }
     return entities
 }
 
