@@ -11,8 +11,8 @@ import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.rule.ActivityTestRule
 import android.support.v4.app.Fragment
 import csumissu.weatherforecast.adapter.ForecastsAdapter
+import csumissu.weatherforecast.extensions.findFragmentByTag
 import csumissu.weatherforecast.ui.ForecastsFragment
-import csumissu.weatherforecast.util.ActivityUtils
 import csumissu.weatherforecast.viewmodel.ForecastListViewModel
 import org.junit.*
 import org.junit.runner.RunWith
@@ -54,8 +54,7 @@ class JUnit4StyleTests {
 
     private fun getForecastListViewModel(): ForecastListViewModel {
         val activity = mActivityRule.activity
-        val forecastsFragment = ActivityUtils.findFragmentByTag<Fragment>(
-                activity.supportFragmentManager, ForecastsFragment.TAG_NAME)
+        val forecastsFragment = activity.findFragmentByTag<Fragment>(ForecastsFragment.TAG_NAME)
         return ViewModelProviders.of(forecastsFragment!!).get(ForecastListViewModel::class.java)
     }
 

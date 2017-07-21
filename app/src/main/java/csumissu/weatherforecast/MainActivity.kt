@@ -7,12 +7,10 @@ import android.os.Bundle
 import android.support.v7.widget.Toolbar
 import csumissu.weatherforecast.common.BasePermissionsActivity
 import csumissu.weatherforecast.common.ToolbarManager
+import csumissu.weatherforecast.extensions.*
 import csumissu.weatherforecast.model.Forecast
-import csumissu.weatherforecast.extensions.DelegatesExt
-import csumissu.weatherforecast.extensions.toDateString
 import csumissu.weatherforecast.ui.DetailsFragment
 import csumissu.weatherforecast.ui.ForecastsFragment
-import csumissu.weatherforecast.util.ActivityUtils
 import csumissu.weatherforecast.util.LocationLiveData
 import csumissu.weatherforecast.viewmodel.AddressViewModel
 import org.jetbrains.anko.find
@@ -36,8 +34,7 @@ class MainActivity : BasePermissionsActivity(), ToolbarManager {
         setSupportActionBar(mToolbar)
 
         if (savedInstanceState == null) {
-            ActivityUtils.showFragment(supportFragmentManager, ForecastsFragment(),
-                    R.id.mContentView, ForecastsFragment.TAG_NAME)
+            showFragment(ForecastsFragment(), R.id.mContentView, ForecastsFragment.TAG_NAME)
         }
 
         mAddressViewModel = ViewModelProviders.of(this).get(AddressViewModel::class.java)
@@ -69,15 +66,14 @@ class MainActivity : BasePermissionsActivity(), ToolbarManager {
         supportActionBar?.subtitle = forecast.date.toDateString(DateFormat.FULL)
 
         val detailsFragment = DetailsFragment.forForecast(forecast)
-        ActivityUtils.showFragmentInTx(supportFragmentManager, detailsFragment, R.id.mContentView)
+        showFragmentInTx(detailsFragment, R.id.mContentView)
     }
 
     private fun observeLocationChanges() {
         LocationLiveData.getInstance(this).observe(this, Observer { it ->
             info("new data ${it?.latitude} ${it?.longitude}")
             if (it != null) {
-                val fragment = ActivityUtils.findFragmentByTag<ForecastsFragment>(
-                        supportFragmentManager, ForecastsFragment.TAG_NAME)
+                val fragment = findFragmentByTag<ForecastsFragment>(ForecastsFragment.TAG_NAME)
                 fragment?.updateCoordinate(it)
 
                 mAddressViewModel.setCoordinate(it)

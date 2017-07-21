@@ -1,6 +1,8 @@
 package csumissu.weatherforecast.common
 
-import csumissu.weatherforecast.util.PermissionUtils
+import csumissu.weatherforecast.extensions.checkGrantResults
+import csumissu.weatherforecast.extensions.requirePermissions
+
 
 /**
  * @author yxsun
@@ -14,7 +16,7 @@ abstract class BasePermissionsActivity : BaseActivity() {
 
     override fun onStart() {
         super.onStart()
-        if (!PermissionUtils.requirePermissions(this, requiredPermissions(), REQUEST_PERMISSIONS_CODE)) {
+        if (!requirePermissions(requiredPermissions(), REQUEST_PERMISSIONS_CODE)) {
             onPermissionsResult(true)
         }
     }
@@ -23,7 +25,7 @@ abstract class BasePermissionsActivity : BaseActivity() {
                                             grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_PERMISSIONS_CODE) {
-            onPermissionsResult(PermissionUtils.checkGrantResults(grantResults))
+            onPermissionsResult(checkGrantResults(grantResults))
         }
     }
 
