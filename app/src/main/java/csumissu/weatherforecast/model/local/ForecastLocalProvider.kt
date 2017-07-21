@@ -2,6 +2,8 @@ package csumissu.weatherforecast.model.local
 
 import android.content.Context
 import csumissu.weatherforecast.extensions.DelegatesExt
+import csumissu.weatherforecast.extensions.toBean
+import csumissu.weatherforecast.extensions.toEntity
 import csumissu.weatherforecast.model.ForecastDataStore
 import csumissu.weatherforecast.model.ForecastList
 import io.reactivex.Flowable
@@ -30,13 +32,14 @@ class ForecastLocalProvider(context: Context) : ForecastDataStore, AnkoLogger {
                 .equalTo("location", location)
                 .findFirst()
         info("loadDailyForecasts hitCache=${entity != null}")
-        return if (entity == null) Flowable.empty<ForecastList>() else Flowable.just(DayForecastsEntity.toEntity(entity))
+
+        return if (entity == null) Flowable.empty<ForecastList>() else Flowable.just(entity.toBean())
     }
 
     override fun saveDailyForecasts(latitude: Double, longitude: Double, forecastList: ForecastList) {
         val realm = Realm.getDefaultInstance()
         realm.beginTransaction()
-        val entity = DayForecastsEntity.fromEntity(latitude, longitude, forecastList)
+        val entity = forecastList.toEntity(latitude, longitude)
         realm.insertOrUpdate(entity)
         realm.commitTransaction()
     }

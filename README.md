@@ -8,7 +8,7 @@ It refers to these docs/samples:
 
 TODO:
 - [x] 需要把util里面的类换成extension
-- [ ] DbEntity可以换成extension
+- [x] DbEntity可以换成extension
 - [ ] ForecastListFragment的逻辑需要再捋捋
 - [ ] Preferences这块支持null怎么弄
 - [ ] 把单例用DI管理起来
