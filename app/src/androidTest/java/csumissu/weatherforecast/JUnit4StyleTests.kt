@@ -10,9 +10,9 @@ import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
 import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.rule.ActivityTestRule
 import android.support.v4.app.Fragment
-import csumissu.weatherforecast.adapter.ForecastsAdapter
 import csumissu.weatherforecast.extensions.findFragmentByTag
-import csumissu.weatherforecast.ui.ForecastsFragment
+import csumissu.weatherforecast.forecasts.ForecastsAdapter
+import csumissu.weatherforecast.forecasts.ForecastsFragment
 import csumissu.weatherforecast.viewmodel.ForecastListViewModel
 import org.junit.*
 import org.junit.runner.RunWith

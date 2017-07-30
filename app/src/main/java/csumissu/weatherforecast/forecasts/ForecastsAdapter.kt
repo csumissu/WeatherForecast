@@ -1,14 +1,14 @@
-package csumissu.weatherforecast.adapter
+package csumissu.weatherforecast.forecasts
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import csumissu.weatherforecast.R
-import csumissu.weatherforecast.model.Forecast
-import csumissu.weatherforecast.model.ForecastList
 import csumissu.weatherforecast.extensions.ctx
 import csumissu.weatherforecast.extensions.toDateString
+import csumissu.weatherforecast.model.Forecast
+import csumissu.weatherforecast.model.ForecastList
 import csumissu.weatherforecast.util.ImageUtils
 import kotlinx.android.synthetic.main.item_forecast.view.*
 

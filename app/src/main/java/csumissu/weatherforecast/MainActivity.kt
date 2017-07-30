@@ -8,9 +8,9 @@ import android.support.v7.widget.Toolbar
 import csumissu.weatherforecast.common.BasePermissionsActivity
 import csumissu.weatherforecast.common.ToolbarManager
 import csumissu.weatherforecast.extensions.*
+import csumissu.weatherforecast.forecastDetails.DetailsFragment
+import csumissu.weatherforecast.forecasts.ForecastsFragment
 import csumissu.weatherforecast.model.Forecast
-import csumissu.weatherforecast.ui.DetailsFragment
-import csumissu.weatherforecast.ui.ForecastsFragment
 import csumissu.weatherforecast.util.LocationLiveData
 import csumissu.weatherforecast.viewmodel.AddressViewModel
 import org.jetbrains.anko.find

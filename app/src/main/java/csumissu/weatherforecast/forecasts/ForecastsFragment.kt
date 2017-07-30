@@ -1,4 +1,4 @@
-package csumissu.weatherforecast.ui
+package csumissu.weatherforecast.forecasts
 
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.Observer
@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import csumissu.weatherforecast.MainActivity
 import csumissu.weatherforecast.R
-import csumissu.weatherforecast.adapter.ForecastsAdapter
 import csumissu.weatherforecast.common.BaseFragment
 import csumissu.weatherforecast.model.Coordinate
 import csumissu.weatherforecast.model.ForecastList
