@@ -25,8 +25,8 @@ class MainActivity : BasePermissionsActivity(), ToolbarManager {
 
     override val mToolbar by lazy { find<Toolbar>(R.id.toolbar) }
     private lateinit var mAddressViewModel: AddressViewModel
-    private var mLocalityPref: String by DelegatesExt.preference(this, PREF_LOCALITY, "")
-    private var mCountryPref: String by DelegatesExt.preference(this, PREF_COUNTRY, "")
+    private var mLocalityPref by DelegatesExt.preference<String>(this, PREF_LOCALITY)
+    private var mCountryPref by DelegatesExt.preference<String>(this, PREF_COUNTRY)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +41,7 @@ class MainActivity : BasePermissionsActivity(), ToolbarManager {
         mAddressViewModel.getAddress().observe(this, Observer { it ->
             mLocalityPref = "${it?.locality}"
             mCountryPref = "${it?.countryName}"
-            supportActionBar?.title = "${it?.locality} / ${it?.countryName}"
+            showActionBarTitle()
         })
     }
 
@@ -56,7 +56,7 @@ class MainActivity : BasePermissionsActivity(), ToolbarManager {
     override fun onBackPressed() {
         super.onBackPressed()
         disableHomeAsUp()
-        supportActionBar?.title = "$mLocalityPref / $mCountryPref"
+        showActionBarTitle()
         supportActionBar?.subtitle = null
     }
 
@@ -79,6 +79,14 @@ class MainActivity : BasePermissionsActivity(), ToolbarManager {
                 mAddressViewModel.setCoordinate(it)
             }
         })
+    }
+
+    private fun showActionBarTitle() {
+        if (mLocalityPref.isNotBlank() && mCountryPref.isNotBlank()) {
+            supportActionBar?.title = "$mLocalityPref / $mCountryPref"
+        } else {
+            supportActionBar?.title = getString(R.string.app_name)
+        }
     }
 
     companion object {

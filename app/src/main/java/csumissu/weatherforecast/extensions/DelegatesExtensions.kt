@@ -1,8 +1,9 @@
 package csumissu.weatherforecast.extensions
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
 
 /**
@@ -12,59 +13,59 @@ import kotlin.reflect.KProperty
 
 object DelegatesExt {
     fun <T> notNullSingleValue() = NotNullSingleValueVar<T>()
-    fun <T> preference(context: Context, name: String, default: T) = Preference(context, name, default)
+    inline fun <reified T : Any> preference(context: Context, name: String, defaultValue: T? = null) =
+            Preference(context, name, defaultValue, T::class)
 }
 
-class NotNullSingleValueVar<T> {
+class NotNullSingleValueVar<T> : ReadWriteProperty<Any?, T> {
     private var value: T? = null
 
-    operator fun getValue(thisRef: Any?, property: KProperty<*>): T {
+    override fun getValue(thisRef: Any?, property: KProperty<*>): T {
         return value ?: throw IllegalStateException("${property.name} not initialized")
     }
 
-    operator fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
-        this.value = if (this.value == null)
+    override fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
+        this.value = if (this.value == null) {
             value
-        else
+        } else {
             throw IllegalStateException("${property.name} already initialized")
+        }
     }
-
 }
 
-class Preference<T>(val context: Context, val name: String, val default: T) {
-    val prefs: SharedPreferences by lazy { context.getSharedPreferences("default", Context.MODE_PRIVATE) }
-
-    operator fun getValue(thisRef: Any?, property: KProperty<*>): T {
-        return findPreference(name, default)
+@Suppress("UNCHECKED_CAST", "IMPLICIT_CAST_TO_ANY")
+class Preference<T : Any>(val context: Context,
+                          val name: String,
+                          val defaultValue: T?,
+                          val clazz: KClass<T>) : ReadWriteProperty<Any?, T?> {
+    val prefs: SharedPreferences by lazy {
+        context.getSharedPreferences("default", Context.MODE_PRIVATE)
     }
 
-    operator fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
-        putPreference(name, value)
+    override fun getValue(thisRef: Any?, property: KProperty<*>): T {
+        return prefs.run {
+            when (clazz) {
+                Int::class -> getInt(name, (defaultValue ?: 0) as Int)
+                Long::class -> getLong(name, (defaultValue ?: 0L) as Long)
+                Float::class -> getFloat(name, (defaultValue ?: 0F) as Float)
+                Boolean::class -> getBoolean(name, (defaultValue ?: false) as Boolean)
+                String::class -> getString(name, (defaultValue ?: "") as String)
+                else -> throw IllegalArgumentException("This type $clazz can't be save into Preferences")
+            }
+        } as T
     }
 
-    @Suppress("UNCHECKED_CAST")
-    private fun findPreference(name: String, default: T): T = with(prefs) {
-        val res: Any = when (default) {
-            is Long -> getLong(name, default)
-            is String -> getString(name, default)
-            is Int -> getInt(name, default)
-            is Boolean -> getBoolean(name, default)
-            is Float -> getFloat(name, default)
-            else -> throw IllegalArgumentException("This type can't be save into Preferences")
-        }
-
-        return res as T
+    override fun setValue(thisRef: Any?, property: KProperty<*>, value: T?) {
+        prefs.edit().apply {
+            when (value) {
+                is Int -> putInt(name, value)
+                is Long -> putLong(name, value)
+                is Float -> putFloat(name, value)
+                is Boolean -> putBoolean(name, value)
+                is String -> putString(name, value)
+                null -> remove(name)
+                else -> throw IllegalArgumentException("This value $value can't be saved into Preferences")
+            }
+        }.apply()
     }
-
-    @SuppressLint("CommitPrefEdits")
-    private fun putPreference(name: String, value: T) = with(prefs.edit()) {
-        when (value) {
-            is Long -> putLong(name, value)
-            is String -> putString(name, value)
-            is Int -> putInt(name, value)
-            is Boolean -> putBoolean(name, value)
-            is Float -> putFloat(name, value)
-            else -> throw IllegalArgumentException("This type can't be saved into Preferences")
-        }
-    }.apply()
 }

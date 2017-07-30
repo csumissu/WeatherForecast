@@ -19,7 +19,7 @@ import javax.inject.Singleton
 @Singleton
 class ForecastLocalProvider(context: Context) : ForecastDataStore, AnkoLogger {
 
-    private var mLastTimeMills: Long by DelegatesExt.preference(context, PREF_TIME_MILLS, 0)
+    private var mLastTimeMills by DelegatesExt.preference<Long>(context, PREF_TIME_MILLS, 0)
 
     override fun loadDailyForecasts(latitude: Double, longitude: Double): Flowable<ForecastList> {
         if (isCacheInvalid()) {
