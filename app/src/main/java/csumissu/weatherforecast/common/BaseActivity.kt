@@ -4,6 +4,8 @@ import android.arch.lifecycle.LifecycleRegistry
 import android.arch.lifecycle.LifecycleRegistryOwner
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.appsee.Appsee
+import csumissu.weatherforecast.R
 import org.jetbrains.anko.AnkoLogger
 
 /**
@@ -17,6 +19,7 @@ abstract class BaseActivity : AppCompatActivity(), LifecycleRegistryOwner, AnkoL
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mRegistry = LifecycleRegistry(this)
+        Appsee.start(getString(R.string.com_appsee_apikey))
     }
 
     override fun getLifecycle(): LifecycleRegistry {
