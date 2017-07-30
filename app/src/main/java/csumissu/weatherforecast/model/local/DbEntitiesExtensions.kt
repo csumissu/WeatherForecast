@@ -1,7 +1,6 @@
-package csumissu.weatherforecast.extensions
+package csumissu.weatherforecast.model.local
 
 import csumissu.weatherforecast.model.*
-import csumissu.weatherforecast.model.local.*
 import io.realm.RealmList
 
 /**

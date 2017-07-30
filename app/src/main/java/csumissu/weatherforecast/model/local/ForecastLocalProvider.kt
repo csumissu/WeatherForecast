@@ -1,15 +1,14 @@
 package csumissu.weatherforecast.model.local
 
 import android.content.Context
-import csumissu.weatherforecast.extensions.DelegatesExt
-import csumissu.weatherforecast.extensions.toBean
-import csumissu.weatherforecast.extensions.toEntity
+import csumissu.weatherforecast.common.ForApplication
 import csumissu.weatherforecast.model.ForecastDataStore
 import csumissu.weatherforecast.model.ForecastList
 import io.reactivex.Flowable
 import io.realm.Realm
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
+import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
@@ -17,19 +16,17 @@ import javax.inject.Singleton
  * @since 07/06/2017
  */
 @Singleton
-class ForecastLocalProvider(context: Context) : ForecastDataStore, AnkoLogger {
-
-    private var mLastTimeMills by DelegatesExt.preference<Long>(context, PREF_TIME_MILLS, 0)
+class ForecastLocalProvider
+@Inject constructor(@ForApplication private val context: Context)
+    : ForecastDataStore, AnkoLogger {
 
     override fun loadDailyForecasts(latitude: Double, longitude: Double): Flowable<ForecastList> {
-        if (isCacheInvalid()) {
-            return Flowable.empty()
-        }
-
+        info("loading local daily forecasts")
         val location = DayForecastsEntity.getLocation(latitude, longitude)
         val entity = Realm.getDefaultInstance()
                 .where(DayForecastsEntity::class.java)
                 .equalTo("location", location)
+                .greaterThan("lastUpdateMills", System.currentTimeMillis() - REFRESH_INTERVAL)
                 .findFirst()
         info("loadDailyForecasts hitCache=${entity != null}")
 
@@ -44,18 +41,7 @@ class ForecastLocalProvider(context: Context) : ForecastDataStore, AnkoLogger {
         realm.commitTransaction()
     }
 
-    private fun isCacheInvalid(): Boolean {
-        val currentMills = System.currentTimeMillis()
-        if (Math.abs(currentMills - mLastTimeMills) > REFRESH_INTERVAL) {
-            mLastTimeMills = currentMills
-            return true
-        } else {
-            return false
-        }
-    }
-
     companion object {
-        val PREF_TIME_MILLS = "time_mills"
         val REFRESH_INTERVAL = 30 * 1000
     }
 

@@ -3,6 +3,7 @@ package csumissu.weatherforecast.model.remote
 import csumissu.weatherforecast.model.ForecastList
 import io.reactivex.Flowable
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -34,6 +35,10 @@ interface ForecastApi {
 
                 it.proceed(it.request().newBuilder().url(httpUrlBuilder.build()).build())
             }
+
+            val logInterceptor = HttpLoggingInterceptor()
+            logInterceptor.level = HttpLoggingInterceptor.Level.BASIC
+            clientBuilder.addInterceptor(logInterceptor)
 
             return Retrofit.Builder()
                     .baseUrl(API_HOST)

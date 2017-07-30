@@ -43,7 +43,8 @@ open class DayForecastsEntity(
         @Index
         var location: String = "",
         var city: CityEntity? = null,
-        var forecasts: RealmList<ForecastEntity> = RealmList()
+        var forecasts: RealmList<ForecastEntity> = RealmList(),
+        var lastUpdateMills: Long = System.currentTimeMillis()
 ) : RealmObject() {
     companion object {
         fun getLocation(latitude: Double, longitude: Double): String {

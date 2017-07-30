@@ -14,6 +14,6 @@ TODO:
 - [ ] 把单例用DI管理起来
 - [ ] 搭个CI(试试Travis)
 - [ ] Realm的结果变成observable
-- [ ] firstElement()时网络请求是否发出
+- [x] firstElement()时网络请求是否发出
 
 
