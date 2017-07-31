@@ -22,28 +22,27 @@ class ForecastLocalProvider
     : ForecastDataStore, AnkoLogger {
 
     override fun loadDailyForecasts(latitude: Double, longitude: Double): Flowable<ForecastList> {
-        return Flowable.create({
-            val location = DayForecastsEntity.getLocation(latitude, longitude)
-            val entity = Realm.getDefaultInstance()
-                    .where(DayForecastsEntity::class.java)
-                    .equalTo("location", location)
-                    .greaterThan("lastUpdateMills", System.currentTimeMillis() - REFRESH_INTERVAL)
-                    .findFirst()
-            info("loadDailyForecasts hitCache=${entity != null}")
+        return Flowable.create(object : RealmOnSubscribe<ForecastList>() {
 
-            if (entity != null) {
-                it.onNext(entity.toBean())
+            override fun get(realm: Realm): ForecastList? {
+                val entity = realm
+                        .where(DayForecastsEntity::class.java)
+                        .equalTo("location", DayForecastsEntity.getLocation(latitude, longitude))
+                        .greaterThan("lastUpdateMills", System.currentTimeMillis() - REFRESH_INTERVAL)
+                        .findFirst()
+                info("loadDailyForecasts hitCache=${entity != null}")
+                return entity?.toBean()
             }
 
-            it.onComplete()
         }, BackpressureStrategy.MISSING)
     }
 
     override fun saveDailyForecasts(latitude: Double, longitude: Double, forecastList: ForecastList) {
-        val realm = Realm.getDefaultInstance()
-        realm.beginTransaction()
-        realm.insertOrUpdate(forecastList.toEntity(latitude, longitude))
-        realm.commitTransaction()
+        Flowable.create(object : RealmOnSubscribe<Unit>() {
+            override fun get(realm: Realm) {
+                realm.insertOrUpdate(forecastList.toEntity(latitude, longitude))
+            }
+        }, BackpressureStrategy.BUFFER).subscribe()
     }
 
     companion object {
