@@ -4,6 +4,7 @@ import android.content.Context
 import csumissu.weatherforecast.common.ForApplication
 import csumissu.weatherforecast.model.ForecastDataStore
 import csumissu.weatherforecast.model.ForecastList
+import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.realm.Realm
 import org.jetbrains.anko.AnkoLogger
@@ -21,23 +22,27 @@ class ForecastLocalProvider
     : ForecastDataStore, AnkoLogger {
 
     override fun loadDailyForecasts(latitude: Double, longitude: Double): Flowable<ForecastList> {
-        info("loading local daily forecasts")
-        val location = DayForecastsEntity.getLocation(latitude, longitude)
-        val entity = Realm.getDefaultInstance()
-                .where(DayForecastsEntity::class.java)
-                .equalTo("location", location)
-                .greaterThan("lastUpdateMills", System.currentTimeMillis() - REFRESH_INTERVAL)
-                .findFirst()
-        info("loadDailyForecasts hitCache=${entity != null}")
+        return Flowable.create({
+            val location = DayForecastsEntity.getLocation(latitude, longitude)
+            val entity = Realm.getDefaultInstance()
+                    .where(DayForecastsEntity::class.java)
+                    .equalTo("location", location)
+                    .greaterThan("lastUpdateMills", System.currentTimeMillis() - REFRESH_INTERVAL)
+                    .findFirst()
+            info("loadDailyForecasts hitCache=${entity != null}")
 
-        return if (entity == null) Flowable.empty<ForecastList>() else Flowable.just(entity.toBean())
+            if (entity != null) {
+                it.onNext(entity.toBean())
+            }
+
+            it.onComplete()
+        }, BackpressureStrategy.MISSING)
     }
 
     override fun saveDailyForecasts(latitude: Double, longitude: Double, forecastList: ForecastList) {
         val realm = Realm.getDefaultInstance()
         realm.beginTransaction()
-        val entity = forecastList.toEntity(latitude, longitude)
-        realm.insertOrUpdate(entity)
+        realm.insertOrUpdate(forecastList.toEntity(latitude, longitude))
         realm.commitTransaction()
     }
 
