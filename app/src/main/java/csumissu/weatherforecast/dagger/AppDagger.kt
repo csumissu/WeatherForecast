@@ -1,4 +1,4 @@
-package csumissu.weatherforecast.common
+package csumissu.weatherforecast.dagger
 
 import android.content.Context
 import csumissu.weatherforecast.App
@@ -48,9 +48,6 @@ class AppModule(private val mApp: App) {
 interface AppComponent {
 
     fun inject(app: App)
-
-    @ForApplication
-    fun getAppContext(): Context
 
     fun getForecastRepository(): ForecastRepository
 

@@ -1,7 +1,7 @@
 package csumissu.weatherforecast.model
 
-import csumissu.weatherforecast.common.Local
-import csumissu.weatherforecast.common.Remote
+import csumissu.weatherforecast.dagger.Local
+import csumissu.weatherforecast.dagger.Remote
 import io.reactivex.Flowable
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
