@@ -1,9 +1,9 @@
 package csumissu.weatherforecast
 
 import android.app.Application
-import csumissu.weatherforecast.dagger.AppComponent
-import csumissu.weatherforecast.dagger.AppModule
-import csumissu.weatherforecast.dagger.DaggerAppComponent
+import csumissu.weatherforecast.di.AppComponent
+import csumissu.weatherforecast.di.AppModule
+import csumissu.weatherforecast.di.DaggerAppComponent
 import csumissu.weatherforecast.extensions.DelegatesExt
 import io.realm.Realm
 

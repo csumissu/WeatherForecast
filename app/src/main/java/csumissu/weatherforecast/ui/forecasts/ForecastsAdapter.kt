@@ -1,4 +1,4 @@
-package csumissu.weatherforecast.forecasts
+package csumissu.weatherforecast.ui.forecasts
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater

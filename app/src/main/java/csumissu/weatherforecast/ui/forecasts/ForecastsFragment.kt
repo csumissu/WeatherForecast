@@ -1,4 +1,4 @@
-package csumissu.weatherforecast.forecasts
+package csumissu.weatherforecast.ui.forecasts
 
 import android.arch.lifecycle.Lifecycle
 import android.arch.lifecycle.Observer

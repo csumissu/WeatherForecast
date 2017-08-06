@@ -1,4 +1,4 @@
-package csumissu.weatherforecast.dagger
+package csumissu.weatherforecast.di
 
 import javax.inject.Qualifier
 import javax.inject.Scope

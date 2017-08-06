@@ -1,4 +1,4 @@
-package csumissu.weatherforecast.forecastDetails
+package csumissu.weatherforecast.ui.details
 
 import android.databinding.BindingAdapter
 import android.databinding.DataBindingUtil

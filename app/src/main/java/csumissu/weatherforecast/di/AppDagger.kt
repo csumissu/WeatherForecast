@@ -1,4 +1,4 @@
-package csumissu.weatherforecast.dagger
+package csumissu.weatherforecast.di
 
 import android.content.Context
 import csumissu.weatherforecast.App

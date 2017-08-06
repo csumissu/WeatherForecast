@@ -8,8 +8,8 @@ import android.support.v7.widget.Toolbar
 import csumissu.weatherforecast.common.BasePermissionsActivity
 import csumissu.weatherforecast.common.ToolbarManager
 import csumissu.weatherforecast.extensions.*
-import csumissu.weatherforecast.forecastDetails.DetailsFragment
-import csumissu.weatherforecast.forecasts.ForecastsFragment
+import csumissu.weatherforecast.ui.details.DetailsFragment
+import csumissu.weatherforecast.ui.forecasts.ForecastsFragment
 import csumissu.weatherforecast.model.Forecast
 import csumissu.weatherforecast.util.LocationLiveData
 import csumissu.weatherforecast.viewmodel.AddressViewModel

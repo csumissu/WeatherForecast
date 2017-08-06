@@ -1,7 +1,7 @@
 package csumissu.weatherforecast.model.local
 
 import android.content.Context
-import csumissu.weatherforecast.dagger.ForApplication
+import csumissu.weatherforecast.di.ForApplication
 import csumissu.weatherforecast.model.ForecastDataStore
 import csumissu.weatherforecast.model.ForecastList
 import io.reactivex.BackpressureStrategy
