@@ -1,5 +1,4 @@
 <resources>
     <string name="app_name">WeatherForecast</string>
     <string name="details_page">Details Page</string>
-    <string name="com.appsee.apikey" translatable="false">d092f6895ad44d01ab4f9d561131c53c</string>
 </resources>
