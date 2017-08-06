@@ -1,6 +1,5 @@
 package csumissu.weatherforecast.util
 
-import android.databinding.BindingAdapter
 import android.support.annotation.DrawableRes
 import android.widget.ImageView
 import com.squareup.picasso.Picasso
@@ -12,12 +11,6 @@ import csumissu.weatherforecast.extensions.ctx
  * @since 07/06/2017
  */
 object ImageUtils {
-
-    @JvmStatic
-    @BindingAdapter("bind:imageUrl")
-    fun loadImage(view: ImageView, url: String) {
-        loadImage(view, url, R.drawable.ic_photo_placeholder, 0)
-    }
 
     fun loadImage(view: ImageView, url: String?,
                   @DrawableRes placeHolder: Int = R.drawable.ic_photo_placeholder,
