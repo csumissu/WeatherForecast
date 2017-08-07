@@ -1,17 +1,13 @@
 package csumissu.weatherforecast.ui.details
 
-import android.databinding.BindingAdapter
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import csumissu.weatherforecast.R
 import csumissu.weatherforecast.common.BaseFragment
 import csumissu.weatherforecast.databinding.FragmentDetailsBinding
-import csumissu.weatherforecast.extensions.color
-import csumissu.weatherforecast.extensions.textColor
 import csumissu.weatherforecast.model.Forecast
 
 /**
@@ -43,16 +39,6 @@ class DetailsFragment : BaseFragment() {
             return detailsFragment
         }
 
-        @JvmStatic
-        @BindingAdapter("bind:temperature")
-        fun bindTextColor(view: TextView, temperature: Float) {
-            view.text = "$temperature°"
-            view.textColor = view.context.color(when (temperature) {
-                in -50..0 -> android.R.color.holo_red_dark
-                in 0..15 -> android.R.color.holo_orange_dark
-                else -> android.R.color.holo_green_dark
-            })
-        }
     }
 
 }
