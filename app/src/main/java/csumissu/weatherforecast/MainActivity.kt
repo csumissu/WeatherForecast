@@ -7,26 +7,31 @@ import android.os.Bundle
 import android.support.v7.widget.Toolbar
 import csumissu.weatherforecast.common.BasePermissionsActivity
 import csumissu.weatherforecast.common.ToolbarManager
+import csumissu.weatherforecast.di.Injectable
 import csumissu.weatherforecast.extensions.*
+import csumissu.weatherforecast.model.Forecast
 import csumissu.weatherforecast.ui.details.DetailsFragment
 import csumissu.weatherforecast.ui.forecasts.ForecastsFragment
-import csumissu.weatherforecast.model.Forecast
 import csumissu.weatherforecast.util.LocationLiveData
 import csumissu.weatherforecast.viewmodel.AddressViewModel
 import org.jetbrains.anko.find
 import org.jetbrains.anko.info
 import java.text.DateFormat
+import javax.inject.Inject
 
 /**
  * @author yxsun
  * @since 01/06/2017
  */
-class MainActivity : BasePermissionsActivity(), ToolbarManager {
+class MainActivity : BasePermissionsActivity(), ToolbarManager, Injectable {
 
     override val mToolbar by lazy { find<Toolbar>(R.id.toolbar) }
     private lateinit var mAddressViewModel: AddressViewModel
     private var mLocalityPref by DelegatesExt.preference<String>(this, PREF_LOCALITY)
     private var mCountryPref by DelegatesExt.preference<String>(this, PREF_COUNTRY)
+
+    @Inject
+    lateinit var mLocationLiveData: LocationLiveData
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,7 +75,7 @@ class MainActivity : BasePermissionsActivity(), ToolbarManager {
     }
 
     private fun observeLocationChanges() {
-        LocationLiveData.getInstance(this).observe(this, Observer { it ->
+        mLocationLiveData.observe(this, Observer { it ->
             info("new data ${it?.latitude} ${it?.longitude}")
             if (it != null) {
                 val fragment = findFragmentByTag<ForecastsFragment>(ForecastsFragment.TAG_NAME)

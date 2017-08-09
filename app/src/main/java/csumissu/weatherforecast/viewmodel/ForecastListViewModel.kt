@@ -21,11 +21,11 @@ class ForecastListViewModel(app: Application) : AndroidViewModel(app) {
     private val mInput = MutableLiveData<Coordinate>()
     private val mForecasts = Transformations.switchMap(mInput) { it ->
         val data = MutableLiveData<ForecastList>()
-        mApp.component().getForecastRepository()
-                .loadDailyForecasts(it.latitude, it.longitude)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { data.value = it }
+//        mApp.component().getForecastRepository()
+//                .loadDailyForecasts(it.latitude, it.longitude)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe { data.value = it }
         data
     }
 

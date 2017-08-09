@@ -3,21 +3,29 @@ package csumissu.weatherforecast.util
 import android.arch.lifecycle.LiveData
 import android.content.Context
 import android.location.Location
-import android.location.LocationManager
+import csumissu.weatherforecast.di.ForApplication
+import csumissu.weatherforecast.extensions.locationManager
 import csumissu.weatherforecast.model.Coordinate
+import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.info
+import javax.inject.Inject
+import javax.inject.Singleton
 
 
 /**
  * @author yxsun
  * @since 01/06/2017
  */
-class LocationLiveData private constructor(context: Context) : LiveData<Coordinate>() {
+@Singleton
+class LocationLiveData
+@Inject constructor(@ForApplication context: Context)
+    : LiveData<Coordinate>(), AnkoLogger {
 
-    private val mLocationManager = context.getSystemService(
-            Context.LOCATION_SERVICE) as LocationManager
+    private val mLocationManager = context.locationManager
 
     private val mListener = object : SimpleLocationListener() {
         override fun onLocationChanged(location: Location?) {
+            info("onLocationChanged() $location")
             updateCurrentLocation(location)
         }
     }
@@ -34,19 +42,9 @@ class LocationLiveData private constructor(context: Context) : LiveData<Coordina
 
     private fun updateCurrentLocation(location: Location?) {
         val coordinate = Coordinate(location?.latitude, location?.longitude)
-        if (value?.latitude != coordinate.latitude || value?.longitude != coordinate.longitude) {
+        if (value != coordinate) {
             value = coordinate
         }
     }
 
-    companion object {
-        private var instance: LocationLiveData? = null
-
-        fun getInstance(ctx: Context): LocationLiveData {
-            if (instance == null) {
-                instance = LocationLiveData(ctx.applicationContext)
-            }
-            return instance!!
-        }
-    }
 }

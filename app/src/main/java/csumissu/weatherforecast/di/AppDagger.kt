@@ -1,16 +1,18 @@
 package csumissu.weatherforecast.di
 
+import android.app.Application
 import android.content.Context
 import csumissu.weatherforecast.App
 import csumissu.weatherforecast.model.ForecastDataSource
 import csumissu.weatherforecast.model.ForecastDataStore
-import csumissu.weatherforecast.model.ForecastRepository
 import csumissu.weatherforecast.model.local.ForecastLocalProvider
 import csumissu.weatherforecast.model.remote.ForecastApi
 import csumissu.weatherforecast.model.remote.ForecastRemoteProvider
+import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
 import dagger.Provides
+import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
 /**
@@ -18,13 +20,13 @@ import javax.inject.Singleton
  * @since 07/06/2017
  */
 @Module
-class AppModule(private val mApp: App) {
+class AppModule {
 
     @Provides
     @Singleton
     @ForApplication
-    fun provideAppContext(): Context {
-        return mApp
+    fun provideAppContext(app: Application): Context {
+        return app.applicationContext
     }
 
     @Provides
@@ -37,18 +39,28 @@ class AppModule(private val mApp: App) {
     @Provides
     @Singleton
     @Local
-    fun provideForecastLocalProvider(): ForecastDataStore {
-        return ForecastLocalProvider(mApp)
+    fun provideForecastLocalProvider(@ForApplication context: Context): ForecastDataStore {
+        return ForecastLocalProvider(context)
     }
 
 }
 
 @Singleton
-@Component(modules = arrayOf(AppModule::class))
+@Component(modules = arrayOf(
+        AndroidSupportInjectionModule::class,
+        AppModule::class,
+        MainUIModule::class
+))
 interface AppComponent {
 
-    fun inject(app: App)
+    @Component.Builder
+    interface Builder {
+        @BindsInstance
+        fun application(application: Application): Builder
 
-    fun getForecastRepository(): ForecastRepository
+        fun build(): AppComponent
+    }
+
+    fun inject(app: App)
 
 }

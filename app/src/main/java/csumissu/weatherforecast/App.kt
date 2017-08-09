@@ -1,34 +1,37 @@
 package csumissu.weatherforecast
 
+import android.app.Activity
 import android.app.Application
-import csumissu.weatherforecast.di.AppComponent
-import csumissu.weatherforecast.di.AppModule
+import csumissu.weatherforecast.di.AutoInjector
 import csumissu.weatherforecast.di.DaggerAppComponent
-import csumissu.weatherforecast.extensions.DelegatesExt
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasActivityInjector
 import io.realm.Realm
+import javax.inject.Inject
 
 /**
  * @author yxsun
  * @since 07/06/2017
  */
-class App : Application() {
+class App : Application(), HasActivityInjector {
 
-    private val mAppComponent: AppComponent by lazy {
-        DaggerAppComponent.builder()
-                .appModule(AppModule(this))
-                .build()
-    }
+    @Inject
+    lateinit var mDispatchingAndroidInject: DispatchingAndroidInjector<Activity>
 
     override fun onCreate() {
         super.onCreate()
-        INSTANCE = this
         Realm.init(this)
+        initAppComponent()
+        AutoInjector.init(this)
     }
 
-    fun component() = mAppComponent
+    override fun activityInjector() = mDispatchingAndroidInject
 
-    companion object {
-        var INSTANCE: App by DelegatesExt.notNullSingleValue()
+    private fun initAppComponent() {
+        DaggerAppComponent.builder()
+                .application(this)
+                .build()
+                .inject(this)
     }
 
 }
