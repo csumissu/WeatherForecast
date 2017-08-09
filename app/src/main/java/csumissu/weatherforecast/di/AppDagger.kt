@@ -49,7 +49,8 @@ class AppModule {
 @Component(modules = arrayOf(
         AndroidSupportInjectionModule::class,
         AppModule::class,
-        MainUIModule::class
+        ViewModelModule::class,
+        MainUiModule::class
 ))
 interface AppComponent {
 

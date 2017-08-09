@@ -2,18 +2,20 @@ package csumissu.weatherforecast
 
 import android.Manifest
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import android.arch.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.widget.Toolbar
 import csumissu.weatherforecast.common.BasePermissionsActivity
 import csumissu.weatherforecast.common.ToolbarManager
-import csumissu.weatherforecast.di.Injectable
 import csumissu.weatherforecast.extensions.*
 import csumissu.weatherforecast.model.Forecast
 import csumissu.weatherforecast.ui.details.DetailsFragment
 import csumissu.weatherforecast.ui.forecasts.ForecastsFragment
-import csumissu.weatherforecast.util.LocationLiveData
-import csumissu.weatherforecast.viewmodel.AddressViewModel
+import csumissu.weatherforecast.viewmodel.LocationLiveData
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.support.HasSupportFragmentInjector
 import org.jetbrains.anko.find
 import org.jetbrains.anko.info
 import java.text.DateFormat
@@ -23,13 +25,17 @@ import javax.inject.Inject
  * @author yxsun
  * @since 01/06/2017
  */
-class MainActivity : BasePermissionsActivity(), ToolbarManager, Injectable {
+class MainActivity : BasePermissionsActivity(), ToolbarManager, HasSupportFragmentInjector {
 
     override val mToolbar by lazy { find<Toolbar>(R.id.toolbar) }
-    private lateinit var mAddressViewModel: AddressViewModel
+
     private var mLocalityPref by DelegatesExt.preference<String>(this, PREF_LOCALITY)
     private var mCountryPref by DelegatesExt.preference<String>(this, PREF_COUNTRY)
 
+    @Inject
+    lateinit var mAndroidInjector: DispatchingAndroidInjector<Fragment>
+    @Inject
+    lateinit var mViewModelFactory: ViewModelProvider.Factory
     @Inject
     lateinit var mLocationLiveData: LocationLiveData
 
@@ -41,13 +47,6 @@ class MainActivity : BasePermissionsActivity(), ToolbarManager, Injectable {
         if (savedInstanceState == null) {
             showFragment(ForecastsFragment(), R.id.mContentView, ForecastsFragment.TAG_NAME)
         }
-
-        mAddressViewModel = ViewModelProviders.of(this).get(AddressViewModel::class.java)
-        mAddressViewModel.getAddress().observe(this, Observer { it ->
-            mLocalityPref = "${it?.locality}"
-            mCountryPref = "${it?.countryName}"
-            showActionBarTitle()
-        })
     }
 
     override fun requiredPermissions(): Array<String> {
@@ -65,6 +64,10 @@ class MainActivity : BasePermissionsActivity(), ToolbarManager, Injectable {
         supportActionBar?.subtitle = null
     }
 
+    override fun supportFragmentInjector(): AndroidInjector<Fragment> {
+        return mAndroidInjector
+    }
+
     fun showDetails(forecast: Forecast) {
         enableHomeAsUp { onBackPressed() }
         supportActionBar?.title = mLocalityPref
@@ -75,14 +78,17 @@ class MainActivity : BasePermissionsActivity(), ToolbarManager, Injectable {
     }
 
     private fun observeLocationChanges() {
-        mLocationLiveData.observe(this, Observer { it ->
+        mLocationLiveData.observe(this, Observer {
             info("new data ${it?.latitude} ${it?.longitude}")
             if (it != null) {
                 val fragment = findFragmentByTag<ForecastsFragment>(ForecastsFragment.TAG_NAME)
                 fragment?.updateCoordinate(it)
-
-                mAddressViewModel.setCoordinate(it)
             }
+        })
+        mLocationLiveData.getAddress().observe(this, Observer {
+            mLocalityPref = "${it?.locality}"
+            mCountryPref = "${it?.countryName}"
+            showActionBarTitle()
         })
     }
 
