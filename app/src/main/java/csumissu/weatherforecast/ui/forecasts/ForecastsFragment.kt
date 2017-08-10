@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +17,7 @@ import csumissu.weatherforecast.di.Injectable
 import csumissu.weatherforecast.model.Coordinate
 import csumissu.weatherforecast.model.ForecastList
 import csumissu.weatherforecast.viewmodel.ForecastsViewModel
-import kotlinx.android.synthetic.main.fragment_forecasts.*
+import org.jetbrains.anko.support.v4.find
 import javax.inject.Inject
 
 /**
@@ -24,6 +25,8 @@ import javax.inject.Inject
  * @since 01/06/2017
  */
 class ForecastsFragment : BaseFragment(), Injectable {
+
+    private val mForecastsView by lazy { find<RecyclerView>(R.id.recycler_view) }
 
     @Inject
     lateinit var mViewModelFactory: ViewModelProvider.Factory
@@ -38,7 +41,7 @@ class ForecastsFragment : BaseFragment(), Injectable {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mForecastsView.layoutManager = LinearLayoutManager(context)
-        mAdapter = ForecastsAdapter { it ->
+        mAdapter = ForecastsAdapter {
             if (lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
                 (activity as MainActivity).showDetails(it)
             }
@@ -49,7 +52,7 @@ class ForecastsFragment : BaseFragment(), Injectable {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mViewModel = ViewModelProviders.of(this, mViewModelFactory).get(ForecastsViewModel::class.java)
-        mViewModel.getDailyForecasts().observe(this, Observer<ForecastList> { it ->
+        mViewModel.getDailyForecasts().observe(this, Observer<ForecastList> {
             mAdapter.setData(it)
         })
     }

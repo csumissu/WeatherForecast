@@ -1,6 +1,6 @@
 package csumissu.weatherforecast.common
 
-import csumissu.weatherforecast.extensions.checkGrantResults
+import android.content.pm.PackageManager
 import csumissu.weatherforecast.extensions.requirePermissions
 
 
@@ -27,6 +27,10 @@ abstract class BasePermissionsActivity : BaseActivity() {
         if (requestCode == REQUEST_PERMISSIONS_CODE) {
             onPermissionsResult(checkGrantResults(grantResults))
         }
+    }
+
+    private fun checkGrantResults(grantResults: IntArray): Boolean {
+        return grantResults.all { it == PackageManager.PERMISSION_GRANTED }
     }
 
     companion object {

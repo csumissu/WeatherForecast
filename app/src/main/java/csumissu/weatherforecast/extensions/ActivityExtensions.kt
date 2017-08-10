@@ -1,6 +1,5 @@
 package csumissu.weatherforecast.extensions
 
-import android.content.pm.PackageManager
 import android.support.annotation.IdRes
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
@@ -44,8 +43,4 @@ fun AppCompatActivity.requirePermissions(permissionArray: Array<String>, request
 
 fun AppCompatActivity.isPermissionGranted(permission: String): Boolean {
     return PermissionChecker.checkSelfPermission(this, permission) == PermissionChecker.PERMISSION_GRANTED
-}
-
-fun AppCompatActivity.checkGrantResults(grantResults: IntArray): Boolean {
-    return grantResults.all { it == PackageManager.PERMISSION_GRANTED }
 }
