@@ -3,7 +3,6 @@ package csumissu.weatherforecast.extensions
 import android.support.annotation.IdRes
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
-import android.support.v4.content.PermissionChecker
 import android.support.v7.app.AppCompatActivity
 
 /**
@@ -39,8 +38,4 @@ fun AppCompatActivity.requirePermissions(permissionArray: Array<String>, request
         ActivityCompat.requestPermissions(this, permissions.toTypedArray(), requestCode)
     }
     return permissions.isNotEmpty()
-}
-
-fun AppCompatActivity.isPermissionGranted(permission: String): Boolean {
-    return PermissionChecker.checkSelfPermission(this, permission) == PermissionChecker.PERMISSION_GRANTED
 }

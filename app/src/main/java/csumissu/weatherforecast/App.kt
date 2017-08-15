@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Application
 import csumissu.weatherforecast.di.AutoInjector
 import csumissu.weatherforecast.di.DaggerAppComponent
+import csumissu.weatherforecast.extensions.DelegatesExt
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import io.realm.Realm
@@ -20,6 +21,7 @@ class App : Application(), HasActivityInjector {
 
     override fun onCreate() {
         super.onCreate()
+        INSTANCE = this
         Realm.init(this)
         initAppComponent()
         AutoInjector.init(this)
@@ -32,6 +34,10 @@ class App : Application(), HasActivityInjector {
                 .application(this)
                 .build()
                 .inject(this)
+    }
+
+    companion object {
+        var INSTANCE: App by DelegatesExt.notNullSingleValue()
     }
 
 }
