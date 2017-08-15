@@ -11,7 +11,7 @@ TODO:
 - [x] DbEntity可以换成extension
 - [ ] ForecastListFragment的逻辑需要再捋捋
 - [x] Preferences这块支持null怎么弄
-- [ ] 把单例用DI管理起来
+- [x] 把单例用DI管理起来
 - [ ] 搭个CI(试试Travis)
 - [x] Realm的结果变成observable
 - [x] firstElement()时网络请求是否发出
