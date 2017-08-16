@@ -61,8 +61,4 @@ class ForecastsFragment : BaseFragment(), Injectable {
         mViewModel.setCoordinate(coordinate)
     }
 
-    companion object {
-        val TAG_NAME = "fragment_forecasts"
-    }
-
 }

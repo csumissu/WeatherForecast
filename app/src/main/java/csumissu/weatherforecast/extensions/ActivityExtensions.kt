@@ -23,8 +23,8 @@ fun AppCompatActivity.hideFragment(fragment: Fragment) {
 
 fun AppCompatActivity.showFragmentInTx(fragment: Fragment, @IdRes frameId: Int, tag: String? = null) {
     supportFragmentManager.beginTransaction()
+            .add(frameId, fragment, tag)
             .addToBackStack(tag)
-            .replace(frameId, fragment, tag)
             .commit()
 }
 

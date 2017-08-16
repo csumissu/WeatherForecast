@@ -45,7 +45,17 @@ class MainActivity : BasePermissionsActivity(), ToolbarManager, HasSupportFragme
         setSupportActionBar(mToolbar)
 
         if (savedInstanceState == null) {
-            showFragment(ForecastsFragment(), R.id.mContentView, ForecastsFragment.TAG_NAME)
+            showFragment(ForecastsFragment(), R.id.mContentView, TAG_FORECASTS)
+        }
+
+        supportFragmentManager.addOnBackStackChangedListener {
+            when (supportFragmentManager.backStackEntryCount) {
+                0 -> {
+                    disableHomeAsUp()
+                    showActionBarTitle()
+                    supportActionBar?.subtitle = null
+                }
+            }
         }
     }
 
@@ -55,13 +65,6 @@ class MainActivity : BasePermissionsActivity(), ToolbarManager, HasSupportFragme
 
     override fun onPermissionsResult(acquired: Boolean) {
         if (acquired) observeLocationChanges() else finish()
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        disableHomeAsUp()
-        showActionBarTitle()
-        supportActionBar?.subtitle = null
     }
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment> {
@@ -74,14 +77,14 @@ class MainActivity : BasePermissionsActivity(), ToolbarManager, HasSupportFragme
         supportActionBar?.subtitle = forecast.date.toDateString(DateFormat.FULL)
 
         val detailsFragment = DetailsFragment.forForecast(forecast)
-        showFragmentInTx(detailsFragment, R.id.mContentView)
+        showFragmentInTx(detailsFragment, R.id.mContentView, TAG_DETAILS)
     }
 
     private fun observeLocationChanges() {
         mLocationLiveData.observe(this, Observer {
             info("new data ${it?.latitude} ${it?.longitude}")
             if (it != null) {
-                val fragment = findFragmentByTag<ForecastsFragment>(ForecastsFragment.TAG_NAME)
+                val fragment = findFragmentByTag<ForecastsFragment>(TAG_FORECASTS)
                 fragment?.updateCoordinate(it)
             }
         })
@@ -103,6 +106,8 @@ class MainActivity : BasePermissionsActivity(), ToolbarManager, HasSupportFragme
     companion object {
         val PREF_LOCALITY = "locality"
         val PREF_COUNTRY = "country"
+        val TAG_FORECASTS = "tag_forecasts"
+        val TAG_DETAILS = "tag_details"
     }
 
 }
