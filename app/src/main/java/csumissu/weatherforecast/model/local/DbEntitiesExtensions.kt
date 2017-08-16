@@ -12,12 +12,7 @@ fun Temperature.toEntity(): TemperatureEntity {
 }
 
 fun TemperatureEntity?.toBean(): Temperature {
-    val entity: TemperatureEntity
-    if (this == null) {
-        entity = TemperatureEntity()
-    } else {
-        entity = this
-    }
+    val entity: TemperatureEntity = this ?: TemperatureEntity()
     return Temperature(entity.day, entity.min, entity.max)
 }
 
@@ -32,13 +27,13 @@ fun WeatherEntity.toBean(): Weather {
 @JvmName("weatherBeansToEntities")
 fun List<Weather>.toEntityList(): RealmList<WeatherEntity> {
     val entities = RealmList<WeatherEntity>()
-    this.mapNotNullTo(entities) { it.toEntity() }
+    this.mapTo(entities) { it.toEntity() }
     return entities
 }
 
 @JvmName("weatherEntitiesToBeans")
 fun RealmList<WeatherEntity>.toBeanList(): List<Weather> {
-    return this.mapNotNull { it.toBean() }
+    return this.map { it.toBean() }
 }
 
 fun Forecast.toEntity(): ForecastEntity {
@@ -54,13 +49,13 @@ fun ForecastEntity.toBean(): Forecast {
 @JvmName("forecastBeansToEntities")
 fun List<Forecast>.toEntityList(): RealmList<ForecastEntity> {
     val entities = RealmList<ForecastEntity>()
-    this.mapNotNullTo(entities) { it.toEntity() }
+    this.mapTo(entities) { it.toEntity() }
     return entities
 }
 
 @JvmName("forecastEntitiesToBeans")
 fun RealmList<ForecastEntity>.toBeanList(): List<Forecast> {
-    return this.mapNotNull { it.toBean() }
+    return this.map { it.toBean() }
 }
 
 fun City.toEntity(): CityEntity {
@@ -68,12 +63,7 @@ fun City.toEntity(): CityEntity {
 }
 
 fun CityEntity?.toBean(): City {
-    val entity: CityEntity
-    if (this == null) {
-        entity = CityEntity()
-    } else {
-        entity = this
-    }
+    val entity: CityEntity = this ?: CityEntity()
     return City(entity.id, entity.name, entity.country)
 }
 

@@ -31,8 +31,8 @@ interface ForecastApi {
                           @Query("lon") longitude: Double): Flowable<ForecastList>
 
     companion object {
-        val APP_ID = "15646a06818f61f7b8d7823ca833e1ce"
-        val API_HOST = "http://api.openweathermap.org/"
+        private val APP_ID = "15646a06818f61f7b8d7823ca833e1ce"
+        private val API_HOST = "http://api.openweathermap.org/"
 
         fun getApiService(): ForecastApi {
             val clientBuilder: OkHttpClient.Builder = OkHttpClient.Builder()
@@ -59,6 +59,7 @@ interface ForecastApi {
             httpUrlBuilder.addQueryParameter("units", "metric")
             httpUrlBuilder.addQueryParameter("lang", Locale.getDefault().language)
             httpUrlBuilder.addQueryParameter("APPID", APP_ID)
+            httpUrlBuilder.addQueryParameter("cnt", "16")
 
             it.proceed(it.request().newBuilder().url(httpUrlBuilder.build()).build())
         }
@@ -79,7 +80,7 @@ interface ForecastApi {
 
             if (Utils.isNetworkAvailable(App.INSTANCE)) {
                 response.newBuilder()
-                        .header("Cache-Control", "public, max-ag=${0}")
+                        .header("Cache-Control", "public, max-ag=0")
                         .removeHeader("Pragma")
                         .build()
             } else {
@@ -93,11 +94,11 @@ interface ForecastApi {
         }
 
         private fun getCache(): Cache {
-            val cacheDir: File
-            if (App.INSTANCE.isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                cacheDir = App.INSTANCE.externalCacheDir
+            val hasPermission = App.INSTANCE.isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            val cacheDir: File = if (hasPermission) {
+                App.INSTANCE.externalCacheDir
             } else {
-                cacheDir = App.INSTANCE.cacheDir
+                App.INSTANCE.cacheDir
             }
             return Cache(cacheDir, 10 * 1024 * 1024)
         }

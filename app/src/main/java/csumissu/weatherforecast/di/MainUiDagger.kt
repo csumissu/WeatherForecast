@@ -7,7 +7,6 @@ import dagger.android.ContributesAndroidInjector
 
 /**
  * @author yxsun
- * *
  * @since 09/08/2017
  */
 @Module

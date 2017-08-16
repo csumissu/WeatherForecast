@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.item_forecast.view.*
  * @since 07/06/2017
  */
 class ForecastsAdapter(private var mForecastList: ForecastList? = null,
-                       val mItemClick: ((Forecast) -> Unit)?)
+                       private val mItemClick: ((Forecast) -> Unit)?)
     : RecyclerView.Adapter<ForecastsAdapter.ViewHolder>() {
 
     fun setData(forecastList: ForecastList?) {

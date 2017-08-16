@@ -36,9 +36,9 @@ class NotNullSingleValueVar<T> : ReadWriteProperty<Any?, T> {
 @Suppress("UNCHECKED_CAST", "IMPLICIT_CAST_TO_ANY")
 class Preference<T : Any>(val context: Context,
                           val name: String,
-                          val defaultValue: T?,
-                          val clazz: KClass<T>) : ReadWriteProperty<Any?, T?> {
-    val prefs: SharedPreferences by lazy {
+                          private val defaultValue: T?,
+                          private val clazz: KClass<T>) : ReadWriteProperty<Any?, T?> {
+    private val prefs: SharedPreferences by lazy {
         context.getSharedPreferences("default", Context.MODE_PRIVATE)
     }
 

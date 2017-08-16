@@ -8,7 +8,8 @@ import java.text.DecimalFormat
  * @author yxsun
  * @since 02/06/2017
  */
-data class Coordinate(private val _latitude: Double? = 34.275, private val _longitude: Double? = 108.953) {
+data class Coordinate(private val _latitude: Double? = 34.275,
+                      private val _longitude: Double? = 108.953) {
     private val format = DecimalFormat("#.###")
 
     val latitude: Double
@@ -19,7 +20,9 @@ data class Coordinate(private val _latitude: Double? = 34.275, private val _long
 
 }
 
-data class Temperature(val day: Float, val min: Float, val max: Float) : Serializable
+data class Temperature(val day: Float,
+                       val min: Float,
+                       val max: Float) : Serializable
 
 data class Weather(val description: String,
                    @SerializedName("icon") val iconCode: String) : Serializable {
@@ -39,9 +42,12 @@ data class Forecast(val dt: Long,
         get() = dt * 1000
 }
 
-data class City(val id: Long, val name: String, val country: String)
+data class City(val id: Long,
+                val name: String,
+                val country: String)
 
-data class ForecastList(val city: City, @SerializedName("list") val dailyForecast: List<Forecast>) {
+data class ForecastList(val city: City,
+                        @SerializedName("list") val dailyForecast: List<Forecast>) {
 
     val size: Int
         get() = dailyForecast.size
