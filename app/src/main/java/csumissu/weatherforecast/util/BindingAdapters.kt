@@ -17,7 +17,7 @@ object BindingAdapters {
 
     @JvmStatic
     @BindingAdapter("imageUrl")
-    fun loadImage(view: ImageView, url: String) {
+    fun loadImage(view: ImageView, url: String?) {
         ImageUtils.loadImage(view, url, R.drawable.ic_photo_placeholder, 0)
     }
 

@@ -30,9 +30,9 @@ class ForecastsViewModel
         data
     }
 
-    fun getDailyForecasts(): LiveData<ForecastList> {
-        return mForecasts
-    }
+    fun getDailyForecasts(): LiveData<ForecastList> = mForecasts
+
+    fun getCoordinate(): Coordinate? = mLocation.value
 
     fun setCoordinate(coordinate: Coordinate) {
         mLocation.value = coordinate

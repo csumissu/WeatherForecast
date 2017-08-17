@@ -1,6 +1,7 @@
 package csumissu.weatherforecast.di
 
 import csumissu.weatherforecast.MainActivity
+import csumissu.weatherforecast.ui.details.DetailsActivity
 import csumissu.weatherforecast.ui.forecasts.ForecastsFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -15,6 +16,10 @@ abstract class MainUiModule {
     @ActivityScope
     @ContributesAndroidInjector
     abstract fun contributeMainActivity(): MainActivity
+
+    @ActivityScope
+    @ContributesAndroidInjector
+    abstract fun contributeDetailsActivity(): DetailsActivity
 
     @FragmentScope
     @ContributesAndroidInjector
