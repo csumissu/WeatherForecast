@@ -40,13 +40,7 @@ class ForecastsFragment : BaseFragment(), Injectable {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mForecastsView.layoutManager = LinearLayoutManager(context)
-        mAdapter = ForecastsAdapter {
-            val intent = Intent(context, DetailsActivity::class.java)
-            intent.putExtra(DetailsActivity.KEY_INDEX, it)
-            intent.putExtra(DetailsActivity.KEY_LATITUDE, mViewModel.getCoordinate()?.latitude)
-            intent.putExtra(DetailsActivity.KEY_LONGITUDE, mViewModel.getCoordinate()?.longitude)
-            startActivity(intent)
-        }
+        mAdapter = ForecastsAdapter { viewForecastDetails(it) }
         mForecastsView.adapter = mAdapter
     }
 
@@ -60,6 +54,14 @@ class ForecastsFragment : BaseFragment(), Injectable {
 
     fun updateCoordinate(coordinate: Coordinate) {
         mViewModel.setCoordinate(coordinate)
+    }
+
+    private fun viewForecastDetails(position: Int) {
+        val intent = Intent(context, DetailsActivity::class.java)
+        intent.putExtra(DetailsActivity.KEY_INDEX, position)
+        intent.putExtra(DetailsActivity.KEY_LATITUDE, mViewModel.getCoordinate()?.latitude)
+        intent.putExtra(DetailsActivity.KEY_LONGITUDE, mViewModel.getCoordinate()?.longitude)
+        startActivity(intent)
     }
 
 }
