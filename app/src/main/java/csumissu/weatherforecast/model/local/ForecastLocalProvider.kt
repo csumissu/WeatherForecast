@@ -2,10 +2,12 @@ package csumissu.weatherforecast.model.local
 
 import android.content.Context
 import csumissu.weatherforecast.di.ForApplication
+import csumissu.weatherforecast.model.Forecast
 import csumissu.weatherforecast.model.ForecastDataStore
 import csumissu.weatherforecast.model.ForecastList
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
+import io.reactivex.Maybe
 import io.realm.Realm
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
@@ -23,18 +25,29 @@ class ForecastLocalProvider
 
     override fun loadDailyForecasts(latitude: Double, longitude: Double): Flowable<ForecastList> {
         return Flowable.create(object : RealmOnSubscribe<ForecastList>() {
-
             override fun get(realm: Realm): ForecastList? {
-                val entity = realm
-                        .where(DayForecastsEntity::class.java)
-                        .equalTo("location", DayForecastsEntity.getLocation(latitude, longitude))
-                        .greaterThan("lastUpdateMills", System.currentTimeMillis() - REFRESH_INTERVAL)
-                        .findFirst()
+                val entity = getDayForecastsEntity(realm, latitude, longitude)
+
                 info("loadDailyForecasts hitCache=${entity != null}")
                 return entity?.toBean()
             }
 
         }, BackpressureStrategy.MISSING)
+    }
+
+    override fun loadForecast(latitude: Double, longitude: Double, index: Int): Maybe<Forecast> {
+        return Maybe.create { emitter ->
+            Realm.getDefaultInstance().use { realm ->
+                val entity = getDayForecastsEntity(realm, latitude, longitude)
+                val forecast = entity?.toBean()?.get(index)
+
+                if (forecast == null) {
+                    emitter.onError(IllegalArgumentException("Can not find any forecast by index $index"))
+                } else {
+                    emitter.onSuccess(forecast)
+                }
+            }
+        }
     }
 
     override fun saveDailyForecasts(latitude: Double, longitude: Double, forecastList: ForecastList) {
@@ -45,8 +58,15 @@ class ForecastLocalProvider
         }, BackpressureStrategy.BUFFER).subscribe()
     }
 
+    private fun getDayForecastsEntity(realm: Realm, latitude: Double, longitude: Double): DayForecastsEntity? {
+        return realm.where(DayForecastsEntity::class.java)
+                .equalTo("location", DayForecastsEntity.getLocation(latitude, longitude))
+                .greaterThan("lastUpdateMills", System.currentTimeMillis() - REFRESH_INTERVAL)
+                .findFirst()
+    }
+
     companion object {
-        val REFRESH_INTERVAL = 30 * 1000
+        val REFRESH_INTERVAL = 10 * 60 * 1000
     }
 
 }

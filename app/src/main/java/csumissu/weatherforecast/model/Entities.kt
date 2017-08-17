@@ -52,6 +52,7 @@ data class ForecastList(val city: City,
     val size: Int
         get() = dailyForecast.size
 
-    operator fun get(position: Int) = dailyForecast[position]
+    operator fun get(position: Int) =
+            if (position < 0 || position > dailyForecast.size - 1) null else dailyForecast[position]
 
 }

@@ -3,6 +3,7 @@ package csumissu.weatherforecast.model
 import csumissu.weatherforecast.di.Local
 import csumissu.weatherforecast.di.Remote
 import io.reactivex.Flowable
+import io.reactivex.Maybe
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 import javax.inject.Inject
@@ -29,5 +30,8 @@ class ForecastRepository
                 .firstOrError()
                 .toFlowable()
     }
+
+    override fun loadForecast(latitude: Double, longitude: Double, index: Int): Maybe<Forecast> =
+            mLocalProvider.loadForecast(latitude, longitude, index)
 
 }
