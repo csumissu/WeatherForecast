@@ -5,6 +5,7 @@ import csumissu.weatherforecast.App
 import csumissu.weatherforecast.BuildConfig
 import csumissu.weatherforecast.extensions.isPermissionGranted
 import csumissu.weatherforecast.model.ForecastList
+import csumissu.weatherforecast.util.JsonUtils
 import csumissu.weatherforecast.util.Utils
 import io.reactivex.Flowable
 import okhttp3.Cache
@@ -49,7 +50,7 @@ interface ForecastApi {
                     .baseUrl(API_HOST)
                     .client(clientBuilder.build())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create(JsonUtils.DEFAULT_GSON))
                     .build()
                     .create(ForecastApi::class.java)
         }

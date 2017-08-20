@@ -2,6 +2,7 @@ package csumissu.weatherforecast.extensions
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.preference.PreferenceManager
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
@@ -39,7 +40,7 @@ class Preference<T : Any>(val context: Context,
                           private val defaultValue: T?,
                           private val clazz: KClass<T>) : ReadWriteProperty<Any?, T?> {
     private val prefs: SharedPreferences by lazy {
-        context.getSharedPreferences("default", Context.MODE_PRIVATE)
+        PreferenceManager.getDefaultSharedPreferences(context)
     }
 
     override fun getValue(thisRef: Any?, property: KProperty<*>): T {
