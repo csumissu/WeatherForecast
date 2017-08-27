@@ -7,8 +7,7 @@ import android.arch.lifecycle.ViewModel
 import csumissu.weatherforecast.model.Coordinate
 import csumissu.weatherforecast.model.ForecastList
 import csumissu.weatherforecast.model.ForecastRepository
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import csumissu.weatherforecast.util.BaseSchedulerProvider
 import javax.inject.Inject
 
 /**
@@ -16,7 +15,8 @@ import javax.inject.Inject
  * @since 11/06/2017
  */
 class ForecastsViewModel
-@Inject constructor(forecastRepository: ForecastRepository)
+@Inject constructor(forecastRepository: ForecastRepository,
+                    private val mSchedulerProvider: BaseSchedulerProvider)
     : ViewModel() {
 
     private val mLocation = MutableLiveData<Coordinate>()
@@ -24,8 +24,8 @@ class ForecastsViewModel
         val data = MutableLiveData<ForecastList>()
         forecastRepository
                 .loadDailyForecasts(it.latitude, it.longitude)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(mSchedulerProvider.io())
+                .observeOn(mSchedulerProvider.ui())
                 .subscribe { data.value = it }
         data
     }

@@ -8,6 +8,8 @@ import csumissu.weatherforecast.model.ForecastDataStore
 import csumissu.weatherforecast.model.local.ForecastLocalProvider
 import csumissu.weatherforecast.model.remote.ForecastApi
 import csumissu.weatherforecast.model.remote.ForecastRemoteProvider
+import csumissu.weatherforecast.util.BaseSchedulerProvider
+import csumissu.weatherforecast.util.SchedulerProvider
 import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
@@ -25,23 +27,23 @@ class AppModule {
     @Provides
     @Singleton
     @ForApplication
-    fun provideAppContext(app: Application): Context {
-        return app.applicationContext
-    }
+    fun provideAppContext(app: Application): Context = app.applicationContext
 
     @Provides
     @Singleton
     @Remote
-    fun provideForecastRemoteProvider(): ForecastDataSource {
-        return ForecastRemoteProvider(ForecastApi.getApiService())
-    }
+    fun provideForecastRemoteProvider(): ForecastDataSource =
+            ForecastRemoteProvider(ForecastApi.getApiService())
 
     @Provides
     @Singleton
     @Local
-    fun provideForecastLocalProvider(@ForApplication context: Context): ForecastDataStore {
-        return ForecastLocalProvider(context)
-    }
+    fun provideForecastLocalProvider(@ForApplication context: Context): ForecastDataStore =
+            ForecastLocalProvider(context)
+
+    @Provides
+    @Singleton
+    fun provideScheduleProvider(): BaseSchedulerProvider = SchedulerProvider()
 
 }
 

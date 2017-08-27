@@ -11,8 +11,7 @@ import csumissu.weatherforecast.di.Injectable
 import csumissu.weatherforecast.extensions.DelegatesExt
 import csumissu.weatherforecast.extensions.toDateString
 import csumissu.weatherforecast.model.ForecastRepository
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import csumissu.weatherforecast.util.BaseSchedulerProvider
 import kotlinx.android.synthetic.main.lay_toolbar.view.*
 import org.jetbrains.anko.error
 import java.text.DateFormat
@@ -29,6 +28,8 @@ class DetailsActivity : BaseActivity(), Injectable {
 
     @Inject
     lateinit var mForecastRepository: ForecastRepository
+    @Inject
+    lateinit var mSchedulerProvider: BaseSchedulerProvider
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,8 +54,8 @@ class DetailsActivity : BaseActivity(), Injectable {
 
     private fun loadForecast(latitude: Double, longitude: Double, index: Int) {
         mForecastRepository.loadForecast(latitude, longitude, index)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(mSchedulerProvider.io())
+                .observeOn(mSchedulerProvider.ui())
                 .subscribe({
                     supportActionBar?.subtitle = it.date.toDateString(DateFormat.FULL)
                     mDataBinding.forecast = it
