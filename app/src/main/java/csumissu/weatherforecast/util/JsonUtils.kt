@@ -15,9 +15,7 @@ object JsonUtils {
                 .create()
     }
 
-    inline fun <reified T : Any> convertFromJson(json: String?): T? {
-        println("syxlog clazz=${T::class.java}, json=$json")
-        return DEFAULT_GSON.fromJson(json, T::class.java)
-    }
+    inline fun <reified T : Any> convertFromJson(json: String?): T? =
+            DEFAULT_GSON.fromJson(json, T::class.java)
 
 }
