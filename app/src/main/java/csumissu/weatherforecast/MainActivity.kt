@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.Toolbar
 import csumissu.weatherforecast.common.BasePermissionsActivity
-import csumissu.weatherforecast.common.ToolbarManager
 import csumissu.weatherforecast.extensions.DelegatesExt
 import csumissu.weatherforecast.extensions.findFragmentByTag
 import csumissu.weatherforecast.extensions.showFragment
@@ -22,9 +21,9 @@ import javax.inject.Inject
  * @author yxsun
  * @since 01/06/2017
  */
-class MainActivity : BasePermissionsActivity(), ToolbarManager, HasSupportFragmentInjector {
+class MainActivity : BasePermissionsActivity(), HasSupportFragmentInjector {
 
-    override val mToolbar by lazy { find<Toolbar>(R.id.toolbar) }
+    private val mToolbar by lazy { find<Toolbar>(R.id.toolbar) }
 
     private var mLocalityPref by DelegatesExt.preference<String>(this, PREF_LOCALITY)
     private var mCountryPref by DelegatesExt.preference<String>(this, PREF_COUNTRY)
