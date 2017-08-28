@@ -2,7 +2,7 @@ package csumissu.weatherforecast.di
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import csumissu.weatherforecast.viewmodel.ForecastsViewModel
+import csumissu.weatherforecast.ui.forecasts.ForecastsViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

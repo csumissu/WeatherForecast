@@ -11,10 +11,9 @@ import android.location.LocationManager
 import csumissu.weatherforecast.di.ForApplication
 import csumissu.weatherforecast.extensions.locationManager
 import csumissu.weatherforecast.model.Coordinate
+import csumissu.weatherforecast.util.BaseSchedulerProvider
 import csumissu.weatherforecast.util.SimpleLocationListener
 import io.reactivex.Maybe
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.error
 import org.jetbrains.anko.info
@@ -29,7 +28,8 @@ import javax.inject.Singleton
  */
 @Singleton
 class LocationLiveData
-@Inject constructor(@ForApplication context: Context)
+@Inject constructor(@ForApplication context: Context,
+                    private val mSchedulerProvider: BaseSchedulerProvider)
     : LiveData<Coordinate>(), AnkoLogger {
 
     private val mGeocoder = Geocoder(context)
@@ -45,8 +45,8 @@ class LocationLiveData
     private val mAddress = Transformations.switchMap(this) { coordinate ->
         val result = MutableLiveData<Address>()
         getFromLocation(coordinate)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(mSchedulerProvider.io())
+                .observeOn(mSchedulerProvider.ui())
                 .subscribe { result.value = it }
         result
     }
