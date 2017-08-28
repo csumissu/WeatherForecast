@@ -7,6 +7,7 @@ import android.content.Context
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
+import android.location.LocationManager
 import csumissu.weatherforecast.di.ForApplication
 import csumissu.weatherforecast.extensions.locationManager
 import csumissu.weatherforecast.model.Coordinate
@@ -51,9 +52,7 @@ class LocationLiveData
     }
 
     override fun onActive() {
-        for (provider in mLocationManager.allProviders) {
-            mLocationManager.requestLocationUpdates(provider, 1000L, 500F, mListener)
-        }
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000L, 500F, mListener)
     }
 
     override fun onInactive() {
