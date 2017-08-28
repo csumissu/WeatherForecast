@@ -32,14 +32,12 @@ class ForecastsViewModel
         data
     }
 
-    override fun subscribe(view: ForecastsContract.ForecastsView?) {
+    override fun subscribe(view: ForecastsContract.ForecastsView) {
         super.subscribe(view)
         mView = view
-        mView?.let { v ->
-            mForecasts.observe(v, Observer {
-                v.showForecasts(it)
-            })
-        }
+        mForecasts.observe(mView, Observer {
+            mView?.showForecasts(it)
+        })
     }
 
     override fun unsubscribe() {
@@ -65,7 +63,11 @@ class ForecastsViewModel
                 .subscribe(object : NetSubscriber<ForecastList>(mView) {
                     override fun onFailed(error: ResponseException) {
                         mView.runSafely {
-                            if (error.displayMessage > 0) showError(error.displayMessage) else showError(error.message)
+                            if (error.displayMessage > 0) {
+                                showError(error.displayMessage)
+                            } else {
+                                showError(error.message)
+                            }
                         }
                     }
 

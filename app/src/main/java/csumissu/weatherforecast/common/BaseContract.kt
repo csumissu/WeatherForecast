@@ -21,11 +21,11 @@ interface BaseContract {
 
     interface IPresenter<in T : IView> {
 
-        fun subscribe(view: T?) {
-            view?.lifecycle?.addObserver(object : LifecycleObserver {
+        fun subscribe(view: T) {
+            view.lifecycle.addObserver(object : LifecycleObserver {
                 @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
                 fun onDestory() {
-                    view.lifecycle?.removeObserver(this)
+                    view.lifecycle.removeObserver(this)
                     unsubscribe()
                 }
             })
