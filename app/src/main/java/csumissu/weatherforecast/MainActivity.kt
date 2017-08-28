@@ -11,7 +11,7 @@ import csumissu.weatherforecast.extensions.DelegatesExt
 import csumissu.weatherforecast.extensions.findFragmentByTag
 import csumissu.weatherforecast.extensions.showFragment
 import csumissu.weatherforecast.ui.forecasts.ForecastsFragment
-import csumissu.weatherforecast.viewmodel.LocationLiveData
+import csumissu.weatherforecast.util.LocationLiveData
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import org.jetbrains.anko.find

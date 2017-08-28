@@ -1,4 +1,4 @@
-package csumissu.weatherforecast.viewmodel
+package csumissu.weatherforecast.util
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
@@ -11,8 +11,6 @@ import android.location.LocationManager
 import csumissu.weatherforecast.di.ForApplication
 import csumissu.weatherforecast.extensions.locationManager
 import csumissu.weatherforecast.model.Coordinate
-import csumissu.weatherforecast.util.BaseSchedulerProvider
-import csumissu.weatherforecast.util.SimpleLocationListener
 import io.reactivex.Maybe
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.error
