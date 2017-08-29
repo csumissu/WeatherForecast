@@ -78,4 +78,15 @@ dependencies {
 
     testCompile 'junit:junit:4.12'
     testCompile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    testCompile "org.jetbrains.spek:spek-api:$spek_version"
+    testCompile "org.jetbrains.spek:spek-junit-platform-engine:$spek_version"
+    testCompile 'org.junit.platform:junit-platform-runner:1.0.0-RC2'
+
+    testCompile "com.squareup.okhttp3:mockwebserver:$okhttp_version"
+    testCompile("android.arch.core:core-testing:$lifecycle_version") {
+        exclude group: 'com.android.support', module: 'support-compat'
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'support-core-utils'
+    }
 }
