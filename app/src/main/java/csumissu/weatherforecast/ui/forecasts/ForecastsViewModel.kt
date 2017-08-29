@@ -4,6 +4,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.Transformations
 import android.arch.lifecycle.ViewModel
+import android.support.annotation.VisibleForTesting
 import csumissu.weatherforecast.common.runSafely
 import csumissu.weatherforecast.exception.NetResponseFunc
 import csumissu.weatherforecast.exception.NetSubscriber
@@ -43,6 +44,9 @@ class ForecastsViewModel
     override fun unsubscribe() {
         mView = null
     }
+
+    @VisibleForTesting
+    fun getView() = mView
 
     override fun updateCoordinate(coordinate: Coordinate) {
         mLocation.value = coordinate
