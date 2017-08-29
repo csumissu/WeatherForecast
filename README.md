@@ -1,4 +1,4 @@
-# WeatherForecast
+# WeatherForecast  [![Build Status](https://www.travis-ci.org/csumissu/WeatherForecast.svg?branch=master)](https://www.travis-ci.org/csumissu/WeatherForecast)
 This is a small Android app using Kotlin language. The ideas is to learn the language and try the Architecture Components.
 
 It refers to these docs/samples:
@@ -12,7 +12,7 @@ TODO:
 - [x] ForecastListFragment的逻辑需要再捋捋
 - [x] Preferences这块支持null怎么弄
 - [x] 把单例用DI管理起来
-- [ ] 搭个CI(试试Travis)
+- [x] 搭个CI(试试Travis)
 - [x] Realm的结果变成observable
 - [x] firstElement()时网络请求是否发出
 
