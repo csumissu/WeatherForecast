@@ -8,5 +8,5 @@ android:
     - extra-android-support
 
 script:
-  - ./gradew build
+  - ./gradlew build
 
