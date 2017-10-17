@@ -24,7 +24,7 @@ interface BaseContract {
         fun subscribe(view: T) {
             view.lifecycle.addObserver(object : LifecycleObserver {
                 @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-                fun onDestory() {
+                fun onDestroy() {
                     view.lifecycle.removeObserver(this)
                     unsubscribe()
                 }

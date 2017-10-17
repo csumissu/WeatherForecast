@@ -1,8 +1,6 @@
 package csumissu.weatherforecast.model.local
 
-import io.reactivex.FlowableEmitter
-import io.reactivex.FlowableOnSubscribe
-import io.reactivex.annotations.NonNull
+import io.reactivex.*
 import io.realm.Realm
 import io.realm.RealmList
 import io.realm.RealmObject
@@ -10,12 +8,32 @@ import io.realm.RealmResults
 
 /**
  * @author yxsun
- * @since 31/07/2017
+ * @since 16/10/2017
  */
-abstract class RealmOnSubscribe<T> : FlowableOnSubscribe<T> {
+abstract class RealmOnSubscribe<T> : FlowableOnSubscribe<T>, MaybeOnSubscribe<T>,
+        ObservableOnSubscribe<T>, SingleOnSubscribe<T> {
 
-    @Throws(Exception::class)
-    override fun subscribe(@NonNull emitter: FlowableEmitter<T>) {
+    override fun subscribe(e: ObservableEmitter<T>) {
+        subscribeInternal(e::onNext, e::onError, e::onComplete)
+    }
+
+    override fun subscribe(e: SingleEmitter<T>) {
+        subscribeInternal(e::onSuccess, e::onError, {})
+    }
+
+    override fun subscribe(e: FlowableEmitter<T>) {
+        subscribeInternal(e::onNext, e::onError, e::onComplete)
+    }
+
+    override fun subscribe(e: MaybeEmitter<T>) {
+        subscribeInternal(e::onSuccess, e::onError, e::onComplete)
+    }
+
+    abstract operator fun get(realm: Realm): T?
+
+    private inline fun subscribeInternal(body: (T) -> Unit,
+                                         error: (Throwable) -> Unit,
+                                         complete: () -> Unit) {
         val realm = Realm.getDefaultInstance()
         val obj: T?
 
@@ -25,13 +43,13 @@ abstract class RealmOnSubscribe<T> : FlowableOnSubscribe<T> {
             realm.commitTransaction()
 
             if (obj != null && !(obj is Unit || obj is Realm)) {
-                emitter.onNext(copyFromRealm(realm, obj))
+                body(copyFromRealm(realm, obj))
             }
 
-            emitter.onComplete()
-        } catch (error: Throwable) {
+            complete()
+        } catch (t: Throwable) {
             realm.cancelTransaction()
-            emitter.onError(error)
+            error(t)
         } finally {
             realm.close()
         }
@@ -47,5 +65,4 @@ abstract class RealmOnSubscribe<T> : FlowableOnSubscribe<T> {
         }
     }
 
-    abstract operator fun get(realm: Realm): T?
 }

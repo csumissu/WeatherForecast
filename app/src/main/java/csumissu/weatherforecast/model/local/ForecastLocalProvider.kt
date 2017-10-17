@@ -36,18 +36,18 @@ class ForecastLocalProvider
     }
 
     override fun loadForecast(latitude: Double, longitude: Double, index: Int): Maybe<Forecast> {
-        return Maybe.create { emitter ->
-            Realm.getDefaultInstance().use { realm ->
+        return Maybe.create(object : RealmOnSubscribe<Forecast>() {
+            override fun get(realm: Realm): Forecast? {
                 val entity = getDayForecastsEntity(realm, latitude, longitude)
                 val forecast = entity?.toBean()?.get(index)
 
                 if (forecast == null) {
-                    emitter.onError(IllegalArgumentException("Can not find any forecast by index $index"))
+                    throw IllegalArgumentException("Can not find any forecast by index $index")
                 } else {
-                    emitter.onSuccess(forecast)
+                    return forecast
                 }
             }
-        }
+        })
     }
 
     override fun saveDailyForecasts(latitude: Double, longitude: Double, forecastList: ForecastList) {
